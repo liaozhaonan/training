@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Chat from '../views/chat'
+import Timetable from '../views/timetable'
 import Attendance from '../views/attendance'
 
 Vue.use(Router)
@@ -10,8 +10,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'chat',
-      component: Chat
+      name: 'timetable',
+      component: Timetable
     },
     {
       path: '/attendance',

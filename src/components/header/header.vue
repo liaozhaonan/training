@@ -1,7 +1,7 @@
 <template>
   <header>
-    <router-link class="back" :to="{ path: '/', params: {'test': 1} }">back</router-link>
-    <div class="title">{{ title }}</div>
+    <router-link class="back" :to="{ path: '/' }">back</router-link>
+    <slot></slot>
     <div class="right">right</div>
   </header>
 </template>

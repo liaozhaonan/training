@@ -38,6 +38,7 @@
 
 <script>
 export default{
+  props: ['changedDate', 'toggleCalendar'],
   data () {
     return {
       showCalendar: true,
@@ -46,11 +47,22 @@ export default{
       currentWeek: 1,
       currentDay: 1,
       isActiveDate: '1997-01-01',
-      days: []
+      days: [],
+      currentWeekDates: []
     }
   },
   created (cur) {
     this.initData(null)
+  },
+  computed: {
+  },
+  watch: {
+    changedDate () {
+      this.pickDay(this.changedDate)
+    },
+    toggleCalendar () {
+      this.showCalendar = !this.showCalendar
+    }
   },
   methods: {
     initData (cur) {
@@ -112,9 +124,15 @@ export default{
       if (!date) {
         date = new Date()
       }
-      let pickedDay = this.getFullDate(date)
-      this.$emit('pickDay', pickedDay)
-      this.isActiveDate = pickedDay
+      let month = date.getMonth() + 1
+      if (month < this.currentMonth) {
+        this.pickPre(date.getFullYear(), month + 1)
+      }
+      if (month > this.currentMonth) {
+        this.pickNext(date.getFullYear(), month - 1)
+      }
+      this.isActiveDate = this.getFullDate(date)
+      this.$emit('pickDay', date)
     },
 
     pickPre (year, month) {
@@ -158,6 +176,7 @@ export default{
     bottom: 5px;
     box-sizing: border-box;
     width: 96%;
+    margin: 0 2%;
     padding: 5px;
     border-radius: 10px;
     background: #e0e0e0;
