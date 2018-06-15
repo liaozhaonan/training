@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Timetable from '../views/timetable'
+import Timetable from '../views/timetable/index'
 import Attendance from '../views/attendance'
 
 Vue.use(Router)

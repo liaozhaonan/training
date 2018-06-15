@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import 'lib-flexible/flexible'
+import 'vue2-animate/dist/vue2-animate.min.css'
 
 Vue.config.productionTip = false
 

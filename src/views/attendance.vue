@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Header><div class="title">考勤记录</div></Header>
+    <Header>
+      <div class="left" name="left">
+        <router-link class="back" :to="{ path: '/' }"><i></i></router-link>
+      </div>
+      <div class="title"><p>考勤记录</p></div>
+      <div class="right" name="right"><a class="forward"><i></i></a></div>
+    </Header>
     <Calendar ref="Calendar" @pickDay="pickedDay" :changed-date="pickedOriginDate" :toggle-calendar="calendarStatus"></Calendar>
     <div class="currentWeek">
       <div class="left" @click="toggleCalendarStatus">
@@ -20,8 +26,8 @@
 </template>
 
 <script>
-import Header from '../components/header/header'
-import Calendar from '../components/calendar/calendar'
+import Header from '@/components/header/header'
+import Calendar from '@/components/calendar/calendar'
 export default{
   data () {
     return {

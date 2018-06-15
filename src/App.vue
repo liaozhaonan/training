@@ -11,9 +11,16 @@ export default {
 </script>
 
 <style>
+/* *{
+  margin: none;
+  padding: none;
+  -webkit-margin-before:0em;
+  -webkit-margin-after:0em;
+} */
 body{
-  background: #f9f9f9;
+  background: #f2f2f2;
   margin: 0;
+  font-family: PingFangSC-Regular;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

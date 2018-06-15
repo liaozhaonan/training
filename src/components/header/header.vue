@@ -1,8 +1,6 @@
 <template>
   <header>
-    <router-link class="back" :to="{ path: '/' }">back</router-link>
     <slot></slot>
-    <div class="right">right</div>
   </header>
 </template>
 
@@ -19,17 +17,25 @@ export default{
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 header
   display: flex;
-  height: 1.9rem;
-  padding: 0.5rem 0.2rem 0.2rem;
-  .back
+  height: 1.38rem;
+  background: #fafafa;
+  .left
+    position: relative;
     width: 10%;
-    padding-top: 0.2rem;
     vertical-align: middle;
+    a
+      display: inline-block;
+      font-size:.5rem;
+      line-height: 1.38rem;
   .title
     width: 80%;
     vertical-align: middle;
+    font-size: .56rem;
+    line-height: 1.38rem;
   .right
+    position: relative;
     width: 10%;
-    padding-top: 0.2rem;
     vertical-align: middle;
+    font-size: .56rem;
+    line-height: 1.38rem;
 </style>
