@@ -1,17 +1,13 @@
 <template>
   <div id="calendar" v-show="showCalendar">
     <div class="month">
-      <ul>
-        <li class="prev" @click="pickPre(currentYear, currentMonth)">
-          <span></span>
-        </li>
-        <li @click="pickYear(currentYear, currentMonth)">
-          <span>{{ currentMonth }}月</span>&nbsp;<span>{{ currentYear }}</span>
-        </li>
-        <li class="next" @click="pickNext(currentYear, currentMonth)">
-          <span></span>
-        </li>
-      </ul>
+      <h5 class="title">
+        <i  class="prev" @click="pickPre(currentYear, currentMonth)"></i>
+        <span @click="pickYear(currentYear, currentMonth)">
+          {{ currentMonth }}月&nbsp;<span class="year">{{ currentYear }}</span>
+        </span>
+        <i class="next" @click="pickNext(currentYear, currentMonth)"></i>
+      </h5>
     </div>
     <div class="week">
       <ul>
@@ -32,7 +28,7 @@
         </li>
       </ul>
     </div>
-    <p class="bottom"><span class="today" @click="pickDay()"><i></i>今天</span><span class="close" @click="hideCalendar()"><label>x</label>关闭</span></p>
+    <p class="bottom"><span class="today" @click="pickDay()"><i></i> 今天</span><span class="close" @click="hideCalendar()"><label>x</label>关闭</span></p>
   </div>
 </template>
 
@@ -173,110 +169,102 @@ export default{
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   #calendar
     position: fixed;
-    bottom: 5px;
+    bottom: 0
+    left: 2%
     box-sizing: border-box;
-    width: 96%;
-    margin: 0 2%;
-    padding: 5px;
-    border-radius: 10px;
-    background: #e0e0e0;
-    .month
-      ul
-        display: flex;
-        padding: 0 5px;
-        margin: 0;
-        list-style-type: none;
-        li
-          width: 33%;
-          height: 30px;
-          line-height: 30px;
-          text-align: center;
-        li.prev
-          text-align: left;
-          & > span
-            display: inline-block;
-            border-right: 12px solid #ff7900;
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
-        li.next
-          text-align: right;
-          & > span
-            display: inline-block;
-            border-left: 12px solid #ff7900;
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
+    width: 96%
+    padding: .13rem /* 10/75 */
+    border-radius: 10px
+    background: #ffffff
+    .title
+      height: 1.07rem /* 80/75 */
+      line-height: 1.07rem /* 80/75 */
+      font-size: .48rem /* 36/75 */
+      text-align: center
+      & > span
+        width: 85%
+      .prev
+        display: inline-block;
+        border-right: .27rem /* 20/75 */ solid #0076FF
+        border-top: .21rem /* 16/75 */ solid transparent
+        border-bottom: .21rem /* 16/75 */ solid transparent
+      .next
+        display: inline-block;
+        border-left: .27rem /* 20/75 */ solid #0076FF
+        border-top: .21rem /* 16/75 */ solid transparent
+        border-bottom: .21rem /* 16/75 */ solid transparent
     .week
-      box-sizing: border-box;
+      box-sizing: border-box
       width: 100%;
-      padding: 5px 10px;
+      height: .8rem /* 60/75 */
       ul
-        display: flex;
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
+        display: flex
+        justify-content: space-around
+        align-items: center
+        height: .8rem /* 60/75 */
+        list-style-type: none
         li
-          width: calc(100% / 7);
+          font-size: .43rem /* 32/75 */
         li.red
-          color: red;
+          color: red
     .days
-      box-sizing: border-box;
-      width: 100%;
-      padding: 5px 10px;
+      box-sizing: border-box
+      width: 100%
       ul
-        display: flex;
-        flex-flow: wrap;
-        align-items: center;
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
+        display: flex
+        justify-content: space-around
+        flex-flow: wrap
+        align-items: center
+        list-style-type: none
         li
-          width: calc(100% / 7);
-          flex: 0 0 auto;
+          width: calc(100% / 7)
           span
             display: inline-block;
-            width: 36px;
-            height: 36px;
-            line-height: 36px;
+            width: .96rem /* 72/75 */
+            height: .96rem /* 72/75 */
+            line-height: .96rem /* 72/75 */
+            font-size: .43rem /* 32/75 */
           span.other-month
-            color: #aaa;
+            color: #aaa
           span:active
-            border-radius: 50%;
-            color: #fff;
-            background: #d0d0d0;
+            border-radius: 50%
+            color: #fff
+            background: #d0d0d0
           span.today
-            position: relative;
+            position: relative
           span.today:after
-            content: '';
-            position: absolute;
-            right: 3px;
-            top: 3px;
-            width: 0px;
-            height: 0px;
-            margin-right: 2px;
-            margin-top: 2px;
-            border-top: 6px solid #ff7900;
-            border-left: 6px solid transparent;
+            content: ''
+            position: absolute
+            right: .08rem /* 6/75 */
+            top: .08rem /* 6/75 */
+            width: 0px
+            height: 0px
+            margin-right: .05rem /* 4/75 */
+            margin-top: .05rem /* 4/75 */
+            border-top: .16rem /* 12/75 */ solid #0076FF;
+            border-left: .16rem /* 12/75 */ solid transparent;
         li.active
           span
             border-radius: 50%;
             color: #fff;
-            background: #ff7900;
+            background: #0076FF;
     .bottom
-      padding: 0.2rem 1rem;
-      margin: 0;
+      padding: 0.2rem 1rem 0.3rem
+      line-height: .35rem /* 26/75 */
+      font-size: .35rem /* 26/75 */
       span
-        display: inline-block;
-        width: 50%;
+        display: inline-block
+        width: 50%
       .today > i
-        display: inline-block;
-        width: 0;
-        margin-right: 2px;
-        vertical-align: super;
-        border-top: 6px solid #ff7900;
-        border-left: 6px solid transparent;
+        display: inline-block
+        width: 0
+        margin-right: .05rem /* 4/75 */
+        vertical-align: super
+        border-top: .16rem /* 12/75 */ solid #0076FF
+        border-left: .16rem /* 12/75 */ solid transparent
       label
-        display: inline-block;
-        margin-right: 1px;
-        color: #ff7900;
+        display: inline-block
+        margin-right: .03rem /* 2/75 */
+        color: #0076FF
 
 </style>

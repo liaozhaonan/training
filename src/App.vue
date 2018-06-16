@@ -11,12 +11,15 @@ export default {
 </script>
 
 <style>
-/* *{
+*{
   margin: none;
   padding: none;
-  -webkit-margin-before:0em;
-  -webkit-margin-after:0em;
-} */
+  -webkit-margin-before: 0em !important;
+  -webkit-margin-after: 0em !important;
+  -webkit-margin-start: 0px !important;
+  -webkit-margin-end: 0px !important;
+  -webkit-padding-start: 0 !important ;
+}
 body{
   background: #f2f2f2;
   margin: 0;
