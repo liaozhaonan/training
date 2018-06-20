@@ -182,6 +182,7 @@ export default{
       font-size: .48rem /* 36/75 */
       text-align: center
       & > span
+        display: inline-block
         width: 85%
       .prev
         display: inline-block;

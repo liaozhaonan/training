@@ -4,8 +4,13 @@ import timetable from '../stViews/timetable/index'
 import sign from '../stViews/timetable/sign'
 import signed from '../stViews/timetable/signed'
 import signRecord from '../stViews/timetable/sign-record'
-import examine from '../stViews/timetable/examine'
+import lessonDetail from '../stViews/timetable/lesson-detail'
+import lessonProgress from '../stViews/timetable/lesson-progress'
+import examineType from '../stViews/timetable/examine-type'
+import examineDetail from '../stViews/timetable/examine-detail'
+import examineCompare from '../stViews/timetable/examine-compare'
 import homework from '../stViews/homework/index'
+import homeworkDetail from '../stViews/homework/detail'
 import select from '../stViews/select/index'
 import chat from '../stViews/chat/index'
 import setting from '../stViews/setting/index'
@@ -36,14 +41,39 @@ export default new Router({
       component: signRecord
     },
     {
-      path: '/examine',
-      name: 'examine',
-      component: examine
+      path: '/examine-type',
+      name: 'examine-type',
+      component: examineType
+    },
+    {
+      path: '/examine-detail',
+      name: 'examine-detail',
+      component: examineDetail
+    },
+    {
+      path: '/examine-compare',
+      name: 'examine-compare',
+      component: examineCompare
+    },
+    {
+      path: '/lesson-detail',
+      name: 'lesson-detail',
+      component: lessonDetail
+    },
+    {
+      path: '/lesson-progress',
+      name: 'lesson-progress',
+      component: lessonProgress
     },
     {
       path: '/homework',
       name: 'homework',
       component: homework
+    },
+    {
+      path: '/homework-detail',
+      name: 'homework-detail',
+      component: homeworkDetail
     },
     {
       path: '/select',

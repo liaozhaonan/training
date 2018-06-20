@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style>
-*{
+ul{
   margin: none;
   padding: none;
   -webkit-margin-before: 0em !important;
