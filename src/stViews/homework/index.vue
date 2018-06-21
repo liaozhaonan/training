@@ -47,6 +47,7 @@ export default{
     background: #fafafa
     span
       display: inline-block
+      box-sizing: border-box
       width: 2.03rem /* 152/75 */
       height: .8rem /* 60/75 */
       margin-top: .19rem /* 14/75 */
@@ -54,6 +55,7 @@ export default{
       font-size: .43rem /* 32/75 */
       color: #0076FF
       border: 1px solid #0076FF
+      background: #ffffff
     .left
       border-top-left-radius:.11rem /* 8/75 */
       border-bottom-left-radius:.11rem /* 8/75 */

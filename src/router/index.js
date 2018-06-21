@@ -11,7 +11,8 @@ import examineDetail from '../stViews/timetable/examine-detail'
 import examineCompare from '../stViews/timetable/examine-compare'
 import homework from '../stViews/homework/index'
 import homeworkDetail from '../stViews/homework/detail'
-import select from '../stViews/select/index'
+import selectIndex from '../stViews/select/index'
+import selectSubject from '../stViews/select/subject'
 import chat from '../stViews/chat/index'
 import setting from '../stViews/setting/index'
 
@@ -77,8 +78,13 @@ export default new Router({
     },
     {
       path: '/select',
-      name: 'select',
-      component: select
+      name: 'select-index',
+      component: selectIndex
+    },
+    {
+      path: '/select-subject',
+      name: 'select-subject',
+      component: selectSubject
     },
     {
       path: '/chat',
