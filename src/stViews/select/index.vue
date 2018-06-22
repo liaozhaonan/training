@@ -33,11 +33,11 @@
     <st-foot-nav :footItem="footItem"></st-foot-nav>
   </div>
 </template>
-
 <script>
 /* eslint-disable quotes */
 import topNav from '@/components/topNav/topNav'
 import stFootNav from '@/components/st/footNav/footNav'
+/* 拼音首字母插件 https://laravel-china.org/topics/7367/indexlist-of-cube-ui-components */
 const cityData = [
   {
     "name": "★热门城市",
@@ -98,7 +98,8 @@ export default{
       searchLesson: '',
       searchCity: '',
       clearable: true,
-      cityData: cityData
+      cityData: cityData,
+      currentCity: null
     }
   },
   computed: {
@@ -113,6 +114,8 @@ export default{
   components: {
     topNav,
     stFootNav
+  },
+  mounted () {
   },
   methods: {
     showCities () {

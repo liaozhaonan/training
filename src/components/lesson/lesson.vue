@@ -57,5 +57,4 @@ export default{
         font-size: .48rem /* 36/75 */
         line-height: .48rem /* 36/75 */
         color: #030303
-
 </style>

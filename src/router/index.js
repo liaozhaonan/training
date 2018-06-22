@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+/* 学生 */
 import timetable from '../stViews/timetable/index'
 import sign from '../stViews/timetable/sign'
 import signed from '../stViews/timetable/signed'
@@ -13,14 +14,20 @@ import homework from '../stViews/homework/index'
 import homeworkDetail from '../stViews/homework/detail'
 import selectIndex from '../stViews/select/index'
 import selectSubject from '../stViews/select/subject'
+import selectDetail from '../stViews/select/detail'
 import chat from '../stViews/chat/index'
 import setting from '../stViews/setting/index'
+/* 老师 */
+import teTimetable from '../teViews/timetable/index'
+import teLessonDetail from '../teViews/timetable/lesson-detail'
+import teLessonPlan from '../teViews/timetable/lesson-plan'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   routes: [
+    /* 学生 */
     {
       path: '/',
       name: 'timetable',
@@ -87,6 +94,11 @@ export default new Router({
       component: selectSubject
     },
     {
+      path: '/select-detail',
+      name: 'select-detail',
+      component: selectDetail
+    },
+    {
       path: '/chat',
       name: 'chat',
       component: chat
@@ -95,6 +107,22 @@ export default new Router({
       path: '/setting',
       name: 'setting',
       component: setting
+    },
+    /* 老师 */
+    {
+      path: '/teacher',
+      name: 'te-timetable',
+      component: teTimetable
+    },
+    {
+      path: '/te-lesson-detail',
+      name: 'te-lesson-detail',
+      component: teLessonDetail
+    },
+    {
+      path: '/te-lesson-plan',
+      name: 'te-lesson-plan',
+      component: teLessonPlan
     }
   ]
 })
