@@ -21,108 +21,140 @@ import setting from '../stViews/setting/index'
 import teTimetable from '../teViews/timetable/index'
 import teLessonDetail from '../teViews/timetable/lesson-detail'
 import teLessonPlan from '../teViews/timetable/lesson-plan'
+import teHomework from '../teViews/homework/index'
+import teHomeworkDetail from '../teViews/homework/detail'
+import teHomeworkPublish from '../teViews/homework/publish'
+import teClass from '../teViews/class/index'
 
 Vue.use(Router)
+
+/* 学生 */
+const stRouters = [
+  {
+    path: '/',
+    name: 'timetable',
+    component: timetable
+  },
+  {
+    path: '/sign',
+    name: 'sign',
+    component: sign
+  },
+  {
+    path: 'signed',
+    name: 'signed',
+    component: signed
+  },
+  {
+    path: '/sign-record',
+    name: 'sign-record',
+    component: signRecord
+  },
+  {
+    path: '/examine-type',
+    name: 'examine-type',
+    component: examineType
+  },
+  {
+    path: '/examine-detail',
+    name: 'examine-detail',
+    component: examineDetail
+  },
+  {
+    path: '/examine-compare',
+    name: 'examine-compare',
+    component: examineCompare
+  },
+  {
+    path: '/lesson-detail',
+    name: 'lesson-detail',
+    component: lessonDetail
+  },
+  {
+    path: '/lesson-progress',
+    name: 'lesson-progress',
+    component: lessonProgress
+  },
+  {
+    path: '/homework',
+    name: 'homework',
+    component: homework
+  },
+  {
+    path: '/homework-detail',
+    name: 'homework-detail',
+    component: homeworkDetail
+  },
+  {
+    path: '/select',
+    name: 'select-index',
+    component: selectIndex
+  },
+  {
+    path: '/select-subject',
+    name: 'select-subject',
+    component: selectSubject
+  },
+  {
+    path: '/select-detail',
+    name: 'select-detail',
+    component: selectDetail
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: chat
+  },
+  {
+    path: '/setting',
+    name: 'setting',
+    component: setting
+  }
+]
+
+const teRouters = [
+  /* 老师 */
+  {
+    path: '/teacher',
+    name: 'te-timetable',
+    component: teTimetable
+  },
+  {
+    path: '/te-lesson-detail',
+    name: 'te-lesson-detail',
+    component: teLessonDetail
+  },
+  {
+    path: '/te-lesson-plan',
+    name: 'te-lesson-plan',
+    component: teLessonPlan
+  },
+  {
+    path: '/te-homework',
+    name: 'te-homework',
+    component: teHomework
+  },
+  {
+    path: '/te-homework-detail',
+    name: 'te-homework-detail',
+    component: teHomeworkDetail
+  },
+  {
+    path: '/te-homework-publish',
+    name: 'te-homework-publish',
+    component: teHomeworkPublish
+  },
+  {
+    path: '/te-class',
+    name: 'te-class',
+    component: teClass
+  }
+]
 
 export default new Router({
   mode: 'history',
   routes: [
-    /* 学生 */
-    {
-      path: '/',
-      name: 'timetable',
-      component: timetable
-    },
-    {
-      path: '/sign',
-      name: 'sign',
-      component: sign
-    },
-    {
-      path: 'signed',
-      name: 'signed',
-      component: signed
-    },
-    {
-      path: '/sign-record',
-      name: 'sign-record',
-      component: signRecord
-    },
-    {
-      path: '/examine-type',
-      name: 'examine-type',
-      component: examineType
-    },
-    {
-      path: '/examine-detail',
-      name: 'examine-detail',
-      component: examineDetail
-    },
-    {
-      path: '/examine-compare',
-      name: 'examine-compare',
-      component: examineCompare
-    },
-    {
-      path: '/lesson-detail',
-      name: 'lesson-detail',
-      component: lessonDetail
-    },
-    {
-      path: '/lesson-progress',
-      name: 'lesson-progress',
-      component: lessonProgress
-    },
-    {
-      path: '/homework',
-      name: 'homework',
-      component: homework
-    },
-    {
-      path: '/homework-detail',
-      name: 'homework-detail',
-      component: homeworkDetail
-    },
-    {
-      path: '/select',
-      name: 'select-index',
-      component: selectIndex
-    },
-    {
-      path: '/select-subject',
-      name: 'select-subject',
-      component: selectSubject
-    },
-    {
-      path: '/select-detail',
-      name: 'select-detail',
-      component: selectDetail
-    },
-    {
-      path: '/chat',
-      name: 'chat',
-      component: chat
-    },
-    {
-      path: '/setting',
-      name: 'setting',
-      component: setting
-    },
-    /* 老师 */
-    {
-      path: '/teacher',
-      name: 'te-timetable',
-      component: teTimetable
-    },
-    {
-      path: '/te-lesson-detail',
-      name: 'te-lesson-detail',
-      component: teLessonDetail
-    },
-    {
-      path: '/te-lesson-plan',
-      name: 'te-lesson-plan',
-      component: teLessonPlan
-    }
+    ...stRouters,
+    ...teRouters
   ]
 })

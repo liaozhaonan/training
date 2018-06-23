@@ -35,4 +35,11 @@ ul{
   -webkit-margin-end: 0px !important;
   -webkit-padding-start: 0 !important ;
 }
+.common-scroll-wrapper{
+  position: absolute;
+  top: 1.38rem;
+  bottom: 0;
+  width: 100%;
+  background: #ffffff;
+}
 </style>

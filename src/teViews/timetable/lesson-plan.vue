@@ -7,7 +7,7 @@
       <div class="title"><p>课程进度计划</p></div>
     </top-nav>
     <div class="select">
-      <p>日期<i class="go"></i><span class="right">请选择</span></p>
+      <p>日期<i class="go"></i><span class="right" @click="showDatePicker">{{ selectedDate }}</span></p>
       <p>状态<span class="right">待上课</span></p>
     </div>
     <div class="text">
@@ -32,6 +32,7 @@ import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
+      selectedDate: '请选择',
       content: '',
       attendance: '',
       pages: '',
@@ -43,6 +44,27 @@ export default{
     topNav
   },
   methods: {
+    showDatePicker () {
+      if (!this.datePicker) {
+        this.datePicker = this.$createDatePicker({
+          title: '选择日期',
+          min: new Date(2008, 0, 1),
+          max: new Date(2030, 11, 31),
+          value: new Date(),
+          onSelect: this.selectHandle
+        })
+      }
+      this.datePicker.show()
+    },
+    selectHandle (date, selectedVal, selectedText) {
+      for (let i = 0; i < selectedText.length; i++) {
+        if (parseInt(selectedText[i]) < 10) {
+          selectedText[i] = '0' + selectedText[i]
+        }
+      }
+      this.selectedDate = `${selectedText.join('-')}`
+      console.log(`${date} <br/>${selectedVal.join(', ')} <br/> ${selectedText.join(' ')}`)
+    }
   }
 }
 </script>
@@ -104,7 +126,7 @@ export default{
       overflow: hidden
     .btn
       width: 6.4rem /* 480/75 */
-      margin: auto
+      margin: 2rem auto
       border-radius: .4rem /* 30/75 */
       overflow: hidden
 

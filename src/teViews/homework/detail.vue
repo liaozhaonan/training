@@ -2,7 +2,7 @@
   <div>
     <top-nav>
       <div class="left" name="left">
-        <router-link class="back" :to="{ name: 'timetable' }"><i></i></router-link>
+        <router-link class="back" :to="{ name: 'te-homework' }"><i></i></router-link>
       </div>
       <div class="title"><p>作业详情</p></div>
     </top-nav>

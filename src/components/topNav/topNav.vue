@@ -29,6 +29,7 @@ header
       line-height: 1.38rem;
   .title
     width: 80%;
+    margin: auto
     vertical-align: middle;
     font-size: .56rem;
     line-height: 1.38rem;
