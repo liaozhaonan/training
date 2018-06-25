@@ -25,7 +25,18 @@ import teHomework from '../teViews/homework/index'
 import teHomeworkDetail from '../teViews/homework/detail'
 import teHomeworkPublish from '../teViews/homework/publish'
 import teClass from '../teViews/class/index'
-
+import teClassSetting from '../teViews/class/lesson-setting'
+import teClassRoll from '../teViews/class/student-roll'
+import teClassAttendance from '../teViews/class/attendance'
+import teClassAttendanceDetail from '../teViews/class/attendance-detail'
+import teClassMark1 from '../teViews/class/mark-step-1'
+import teClassMark2 from '../teViews/class/mark-step-2'
+import teClassMark3 from '../teViews/class/mark-step-3'
+import teClassRecruit from '../teViews/class/recruit'
+import teClassSign from '../teViews/class/sign'
+import teClassSignCode from '../teViews/class/sign-code'
+import teClassSignDetail from '../teViews/class/sign-detail'
+import teClassSignAdd from '../teViews/class/sign-add'
 Vue.use(Router)
 
 /* 学生 */
@@ -148,6 +159,66 @@ const teRouters = [
     path: '/te-class',
     name: 'te-class',
     component: teClass
+  },
+  {
+    path: '/te-class-setting',
+    name: 'te-class-setting',
+    component: teClassSetting
+  },
+  {
+    path: '/te-class-roll',
+    name: 'te-class-roll',
+    component: teClassRoll
+  },
+  {
+    path: '/te-class-attendance',
+    name: 'te-class-attendance',
+    component: teClassAttendance
+  },
+  {
+    path: '/te-class-attendance-detail',
+    name: 'te-class-attendance-detail',
+    component: teClassAttendanceDetail
+  },
+  {
+    path: '/te-class-mark-step-1',
+    name: 'te-class-mark-step-1',
+    component: teClassMark1
+  },
+  {
+    path: '/te-class-mark-step-2',
+    name: 'te-class-mark-step-2',
+    component: teClassMark2
+  },
+  {
+    path: '/te-class-mark-step-3',
+    name: 'te-class-mark-step-3',
+    component: teClassMark3
+  },
+  {
+    path: '/te-class-recruit',
+    name: 'te-class-recruit',
+    component: teClassRecruit
+  },
+  {
+    path: '/te-class-sign',
+    name: 'te-class-sign',
+    component: teClassSign
+  },
+  {
+    path: '/te-class-sign-code',
+    name: 'te-class-sign-code',
+    component: teClassSignCode
+  },
+  {
+    path: '/te-class-sign-detail',
+    name: 'te-class-sign-detail',
+    component: teClassSignDetail
+  },
+  {
+    path: '/te-class-sign-add',
+    name: 'te-class-sign-add',
+    component: teClassSignAdd
   }
 ]
 

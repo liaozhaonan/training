@@ -208,10 +208,11 @@ export default{
       background: #fafafa
       .cube-input
         width: 55%
-        height: 1rem
-        margin-top: 0.1rem
+        height: 0.9rem
+        margin-top: 0.15rem
         background-color: #f2f2f2
-        border-radius: .16rem /* 12/75 */
+        border-radius: 0.16rem
+        overflow: hidden
       .search-btn
         width: 1.82rem /* 140/75 */
         height: 1rem

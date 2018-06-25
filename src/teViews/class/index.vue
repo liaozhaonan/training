@@ -2,17 +2,31 @@
   <div>
     <top-nav>
       <div class="title"><p>班级管理</p></div>
-      <div class="sign-in"><router-link :to="{ name: '', params: {} }">现场签到</router-link></div>
+      <div class="sign-in"><router-link :to="{ name: 'te-class-sign', params: {} }">现场签到</router-link></div>
     </top-nav>
     <div class="common-scroll-wrapper">
       <cube-scroll>
         <div class="list">
-          <div class="item"></div>
-          <div class="item"></div>
-          <div class="item"></div>
-          <div class="item"></div>
-          <div class="item"></div>
-          <div class="item"></div>
+          <router-link class="item" :to="{ name: 'te-class-setting' }">
+            <i class="lesson-setting"></i>
+            <p>课程设置</p>
+          </router-link>
+          <router-link  class="item" :to="{ name: 'te-class-roll' }">
+            <i class="student-roll"></i>
+            <p>学生名册&nbsp;&nbsp;</p>
+          </router-link>
+          <router-link  class="item" :to="{ name: 'te-class-attendance', params: {} }">
+            <i class="attendance"></i>
+            <p>班级考勤</p>
+          </router-link>
+          <router-link  class="item" :to="{ name: 'te-class-mark-step-1', params: {} }">
+            <i class="mark"></i>
+            <p>考核成绩</p>
+          </router-link>
+          <router-link  class="item" :to="{ name: 'te-class-recruit', params: {} }">
+            <i class="recruit"></i>
+            <p>招生管理&nbsp;</p>
+          </router-link>
         </div>
       </cube-scroll>
     </div>
@@ -60,10 +74,33 @@ export default{
         flex: 0 0 auto
         box-sizing: border-box
         width: 50%
-        height: 4.93rem /* 370/75 */
-        border-top: 1px solid #f2f2f2
+        height: 5.01rem /* 376/75 */
+        border-bottom: 1px solid #f2f2f2
         background: #ffffff
-        &:nth-child(2n)
-          border-left: 1px solid #f2f2f2
-
+        &:nth-child(2n+1)
+          border-right: 1px solid #f2f2f2
+        i
+          display: block
+          width: 1.87rem /* 140/75 */
+          height: 1.87rem /* 140/75 */
+          margin: 1.17rem /* 88/75 */ auto 0
+          &.lesson-setting
+            background: url(../../assets/img/class/lesson-setting.png) no-repeat
+            background-size: contain
+          &.student-roll
+            background: url(../../assets/img/class/student-roll.png) no-repeat
+            background-size: contain
+          &.attendance
+            background: url(../../assets/img/class/attendance.png) no-repeat
+            background-size: contain
+          &.mark
+            background: url(../../assets/img/class/mark.png) no-repeat
+            background-size: contain
+          &.recruit
+            background: url(../../assets/img/class/recruit.png) no-repeat
+            background-size: contain
+        p
+          line-height: .8rem /* 60/75 */
+          font-size: .48rem /* 36/75 */
+          color: #464646
 </style>

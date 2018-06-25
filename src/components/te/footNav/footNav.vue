@@ -13,7 +13,7 @@
       </router-link>
     </li>
     <li class="item3" :class="{'on': itemIndex === 3}">
-      <router-link :to="{ name: 'te-select' }">
+      <router-link :to="{ name: 'te-class' }">
         <div class="icon"></div>
         <p>班级管理</p>
       </router-link>
