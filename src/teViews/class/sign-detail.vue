@@ -40,8 +40,15 @@ export default{
         width: 100%
         height: 1.38rem
   .detail
-    padding: 1rem
-  p
-    font-size: .43rem /* 32/75 */
-    line-height: 1.07rem /* 80/75 */
+    position: absolute
+    top: 1.38rem
+    bottom: 0
+    width: 100%
+    padding-top: 2rem
+    background: #ffffff
+    p
+      padding-left: 35%
+      font-size: .53rem /* 40/75 */
+      line-height: 1.33rem /* 100/75 */
+      text-align: left
 </style>
