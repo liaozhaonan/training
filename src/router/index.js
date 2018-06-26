@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+import login from '../stViews/login/login'
+
 /* 学生 */
 import timetable from '../stViews/timetable/index'
 import sign from '../stViews/timetable/sign'
@@ -38,6 +41,15 @@ import teClassSignCode from '../teViews/class/sign-code'
 import teClassSignDetail from '../teViews/class/sign-detail'
 import teClassSignAdd from '../teViews/class/sign-add'
 Vue.use(Router)
+
+/* 登录 */
+const loginRouters = [
+  {
+    path: '/login',
+    name: 'login',
+    component: login
+  }
+]
 
 /* 学生 */
 const stRouters = [
@@ -225,6 +237,7 @@ const teRouters = [
 export default new Router({
   mode: 'history',
   routes: [
+    ...loginRouters,
     ...stRouters,
     ...teRouters
   ]

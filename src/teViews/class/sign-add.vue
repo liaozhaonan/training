@@ -67,10 +67,10 @@ export default{
   },
   computed: {
     btnDisable () {
-      if (this.selectedClass.value && this.selectedTime.value && this.activity && this.address) {
-        return false
-      }
-      return true
+      return !(this.selectedClass.value && this.selectedTime.value && this.activity && this.address)
+    },
+    key () {
+      return this.$store.state.key
     }
   },
   components: {

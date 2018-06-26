@@ -7,58 +7,24 @@
       <div class="left">
         <router-link class="back" :to="{ path: '' }"><i></i></router-link>
       </div>
-      <div class="title"><p>2018-06-22</p></div>
+      <div class="title"><p>{{ selectedDate }}</p></div>
       <div class="right"><a class="forward"><i></i></a></div>
     </top-nav>
     <div class="scroll-wrapper">
       <cube-scroll>
         <div class="am">
-          <lesson>
-            <p slot="no" class="no">第一节</p>
-            <p slot="time" class="time">8:00-8:45</p>
-            <p>数学</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第二节</p>
-            <p slot="time" class="time">8:55-9:40</p>
-            <p>英语</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第三节</p>
-            <p slot="time" class="time">9:50-10:35</p>
-            <p>化学</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第四节</p>
-            <p slot="time" class="time">10:45-11:30</p>
-            <p>语文</p>
-          </lesson>
-        </div>
-        <p class="noon">午休</p>
-        <div class="pm">
-          <lesson>
-            <p slot="no" class="no">第五节</p>
-            <p slot="time" class="time">14:00-14:45</p>
-            <p>物理</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第六节</p>
-            <p slot="time" class="time">14:55-15:40</p>
-            <p>体育</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第七节</p>
-            <p slot="time" class="time">16:10-16:55</p>
-            <p>生物</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第八节</p>
-            <p slot="time" class="time">17:05-17:50</p>
-            <p>活动</p>
-          </lesson>
+          <div v-for="item in lessonList" :key="item.id">
+            <p v-if="item.sort == 5" class="noon">午休</p>
+            <lesson>
+              <p slot="no" class="no">{{ item.lessons }}</p>
+              <p slot="time" class="time">{{ item.start_time }}-{{ item.end_time }}</p>
+              <p>{{ item.goods_name }}</p>
+            </lesson>
+          </div>
         </div>
       </cube-scroll>
     </div>
+    <cube-popup :mask="false" :content="errorTip" ref="errPopup" />
     <te-foot-nav :footItem="footItem"></te-foot-nav>
   </div>
 </template>
@@ -71,16 +37,42 @@ import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
-      footItem: 1
+      footItem: 1,
+      errorTip: '',
+      selectedDate: '',
+      selectedTimestamp: null,
+      lessonList: []
     }
+  },
+  computed: {
   },
   components: {
     topNav,
     teFootNav,
     lesson
   },
+  mounted () {
+    this.getTimeInfo()
+    this.$http.post('/api/mobile/index.php?act=member_index&op=taecher_class_all', {
+      key: this.$store.state.user.key, time: this.selectedTimestamp
+    }).then((res) => {
+      if (res.error) {
+        this.errorTip = res.error
+        this.$common.showPopup(this.$refs.errPopup)
+        return
+      }
+      this.lessonList = res
+    })
+  },
   methods: {
-
+    getTimeInfo (s) {
+      let date = s ? new Date(s) : new Date()
+      let y = date.getFullYear()
+      let m = date.getMonth() + 1
+      let d = date.getDate()
+      this.selectedDate = `${y}-${m}-${d}`
+      this.selectedTimestamp = date.getTime()
+    }
   }
 }
 </script>

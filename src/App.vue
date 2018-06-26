@@ -42,4 +42,11 @@ ul{
   width: 100%;
   background: #ffffff;
 }
+.cube-popup-content{
+  min-width: 50%;
+  padding: .63rem /* 20/32 */;
+  font-size: .44rem /* 14/32 */;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+}
 </style>
