@@ -2,7 +2,7 @@
   <div>
       <top-nav>
         <div class="left"><router-link class="back" :to="{ name: 'te-class' }"><i></i></router-link></div>
-        <div class="title"><p>课程设置</p></div>
+        <div class="title"><p>学生名册</p></div>
       </top-nav>
       <top-nav class="chose-student">
         <div class="title">

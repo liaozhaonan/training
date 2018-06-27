@@ -8,7 +8,7 @@
     </top-nav>
     <div class="select">
       <p>日期<i class="go"></i><span class="right" @click="showDatePicker">{{ selectedDate }}</span></p>
-      <p>状态<span class="right">待上课</span></p>
+      <!-- <p>状态<span class="right">待上课</span></p> -->
     </div>
     <div class="text">
       <p>当堂内容</p>
@@ -20,9 +20,10 @@
       <p>课本页数</p>
       <cube-input v-model="pages" placeholder="请输入课本页数"></cube-input>
       <div class="btn">
-        <cube-button :disabled="btnDisable">确定</cube-button>
+        <cube-button :disabled="btnDisable" @click="submitPlan">确定</cube-button>
       </div>
     </div>
+    <cube-popup class="tip" :mask="false" :content="popTip" ref="tipPopup" />
   </div>
 </template>
 
@@ -36,8 +37,13 @@ export default{
       content: '',
       attendance: '',
       pages: '',
-      btnDisable: true,
-      maxLength: 500
+      maxLength: 500,
+      popTip: ''
+    }
+  },
+  computed: {
+    btnDisable () {
+      return !((this.selectedDate !== '请选择') && this.content && this.attendance && this.pages)
     }
   },
   components: {
@@ -63,7 +69,18 @@ export default{
         }
       }
       this.selectedDate = `${selectedText.join('-')}`
-      console.log(`${date} <br/>${selectedVal.join(', ')} <br/> ${selectedText.join(' ')}`)
+    },
+    submitPlan () {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=class_schedule', {
+        key: this.$store.state.user.key,
+        id: this.$route.params.id,
+        content: this.content,
+        attendance_log: this.attendance,
+        pagination: this.pages
+      }).then((res) => {
+        this.popTip = res
+        this.$common.showPopup(this.$refs.tipPopup)
+      })
     }
   }
 }
@@ -74,6 +91,8 @@ export default{
     background: #0076ff
     &:active
       background: #004eff
+    &.cube-btn_disabled
+      background: #cccccc
   .select
     margin-bottom: .21rem /* 16/75 */
     background: #ffffff
@@ -100,7 +119,7 @@ export default{
         background-size: contain
   .text
     position: absolute
-    top: 4.48rem /* 336/75 */
+    top: 3.04rem /* 228/75 */  /* 上方增加"状态"后的top: 4.48rem */
     bottom: 0
     box-sizing: border-box
     width: 100%

@@ -2,17 +2,21 @@
   <div>
     <div class="top">
       <label>
-        <span class="note" :class="{'active': showSide === 1}" @click="getList(1)">通知</span><span class="work" :class="{'active': showSide === 2}" @click="getList(2)">作业</span>
+        <span class="group" :class="{'active': showSide === 1}" @click="switchSide(1)">我的班级</span><span class="forum" :class="{'active': showSide === 2}" @click="switchSide(2)">学校论坛</span>
       </label>
-      <!-- <span class="right">发布</span> -->
     </div>
     <div class="list">
-      <cube-scroll>
-        <router-link v-for="item in showList" :to="{ name: 'te-homework-detail', params: {type: item.type, id: item.id} }" :key="item.id" >
+      <cube-scroll v-show="showSide === 1">
+        <router-link v-for="item in groupList" :to="{ name: '', params: {} }" :key="item.id" >
           <div class="item">
             <p>{{ item.class_name }}<span class="right">{{ item.date }}</span></p>
-            <span>{{ item.title }}</span>
+            <span>{{ item.content }}</span>
           </div>
+        </router-link>
+      </cube-scroll>
+      <cube-scroll v-show="showSide === 2">
+        <router-link v-for="(item, index) in forumList" :to="{ name: '', params: {} }" :key="index" >
+
         </router-link>
       </cube-scroll>
     </div>
@@ -26,11 +30,10 @@ import teFootNav from '@/components/te/footNav/footNav'
 export default{
   data () {
     return {
-      footItem: 2,
-      noteList: [],
-      homeworkList: [],
+      footItem: 4,
+      groupList: [],
+      forumList: [],
       showSide: 1,
-      showList: [],
       errorTip: ''
     }
   },
@@ -51,19 +54,29 @@ export default{
         for (let i = 0; i < res.length; i++) {
           res[i].date = vm.$common.getFullDate(res[i].date * 1000)
         }
-        vm.showList = vm.noteList = res
+        vm.showList = vm.groupList = res
+      })
+
+      vm.$http.post('/api/mobile/index.php?act=forum&op=forum_list', {
+        key: vm.$store.state.user.key
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        console.log(res)
+        this.forumList = res
       })
     })
   },
   methods: {
-    getList (type) {
-      // 点击后实时显示当前面板的列表
-      this.showSide = type
-      type === 1 ? this.showList = this.noteList : this.showList = this.homeworkList
-
-      this.$http.post('/api/mobile/index.php?act=member_index&op=notice_homework_list', {
-        key: this.$store.state.user.key,
-        type: type
+    switchSide (side) {
+      this.showSide = side
+    },
+    getGroupList () {
+      this.$http.post('/api/mobile/index.php?act=forum&op=forum_list', {
+        key: this.$store.state.user.key
       }).then((res) => {
         if (res.error) {
           this.errorTip = res.error
@@ -75,7 +88,20 @@ export default{
           res[i].date = this.$common.getFullDate(res[i].date * 1000)
         }
         // 异步请求成功后更新显示列表,并将请求结果存入相应类别的列表, 以便下次切换时能够实时替换为显示列表
-        type === 1 ? this.showList = this.noteList = res : this.showList = this.homeworkList = res
+      this.groupList = res
+      })
+    },
+    getForumList () {
+      this.$http.post('/api/mobile/index.php?act=forum&op=forum_list', {
+        key: this.$store.state.user.key
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        console.log(res)
+        this.forumList = res
       })
     }
   }
@@ -93,7 +119,7 @@ export default{
     span
       display: inline-block
       box-sizing: border-box
-      width: 2.03rem /* 152/75 */
+      width: 2.3rem /* 152/75 */
       height: .8rem /* 60/75 */
       line-height: .85rem /* 60/75 */
       font-size: .43rem /* 32/75 */

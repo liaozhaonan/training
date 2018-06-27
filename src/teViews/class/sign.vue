@@ -4,7 +4,7 @@
       <div class="left">
         <router-link class="back" :to="{ name: 'te-class' }"><i></i></router-link>
       </div>
-      <div class="title"><p>招生管理</p></div>
+      <div class="title"><p>现场签到</p></div>
       <router-link class="start" :to="{ name: 'te-class-sign-add', params: {} }">发起</router-link>
     </top-nav>
     <div class="info">
@@ -17,6 +17,7 @@
       <router-link :to="{ name: 'te-class-sign-code', params: {} }"><h5>二维码<i></i></h5></router-link>
       <router-link :to="{ name: 'te-class-sign-detail', params: {} }"><h5>扫码详情<i></i></h5></router-link>
     </div>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errPopup" />
   </div>
 </template>
 
@@ -27,11 +28,25 @@ import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
-
+      errorTip: ''
     }
   },
   components: {
     topNav
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$http.post('/api/mobile/index.php?act=member_index&op=teacher_class_list', {
+        key: vm.$store.state.user.key
+      }).then((res) => {
+        if (res.error) {
+          vm.errorTip = res.error
+          vm.$common.showPopup(vm.$refs.errPopup)
+          return
+        }
+        console.log(res)
+      })
+    })
   }
 }
 </script>

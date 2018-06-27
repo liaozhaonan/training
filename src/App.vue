@@ -42,9 +42,9 @@ ul{
   width: 100%;
   background: #ffffff;
 }
-.cube-popup-content{
+.tip .cube-popup-content{
   min-width: 50%;
-  padding: .63rem /* 20/32 */;
+  padding: .47rem /* 15/32 */;
   font-size: .44rem /* 14/32 */;
   background: rgba(0,0,0,0.8);
   color: #fff;

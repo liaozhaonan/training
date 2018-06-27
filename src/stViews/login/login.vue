@@ -8,7 +8,7 @@
     <div class="btn">
       <cube-button :disabled="btnDisable" @click="login">登录</cube-button>
     </div>
-    <cube-popup :mask="false" :content="errorTip" ref="errPopup" />
+    <cube-popup class="error" :mask="false" :content="errorTip" ref="errPopup" />
   </div>
 </template>
 

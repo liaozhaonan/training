@@ -4,14 +4,14 @@
       <div class="left">
         <router-link class="back" :to="{ name: 'te-lesson-detail' }"><i></i></router-link>
       </div>
-      <div class="title"><p>课程进度计划</p></div>
+      <div class="title"><p>{{ headText }}</p></div>
     </top-nav>
     <div class="common-scroll-wrapper">
       <cube-scroll>
-        <div class="select">
+        <!-- <div class="select">
           <p>班级<i class="go"></i><span class="right" @click="showClassPicker">{{ selectedClass.text }}</span></p>
           <p>课程<i class="go"></i><span class="right" @click="showLessonPicker">{{ selectedLesson.text }}</span></p>
-        </div>
+        </div> -->
         <div class="text">
           <p>标题</p>
           <cube-input v-model="title" placeholder="请输入标题"></cube-input>
@@ -20,13 +20,14 @@
             <cube-textarea v-model="content" name="content" placeholder="请输入内容" :maxlength="maxLength"></cube-textarea>
           </div>
           <p>添加图片</p>
-          <cube-upload action="//jsonplaceholder.typicode.com/photos/" :simultaneous-uploads="1" @files-added="filesAdded" />
+          <cube-upload ref="upload" action="/api/mobile/index.php?act=upload&op=image" :simultaneous-uploads="1" @files-added="filesAdded" />
           <div class="btn">
-            <cube-button :disabled="btnDisable">马上发布</cube-button>
+            <cube-button :disabled="btnDisable" @click="publish()">马上发布</cube-button>
           </div>
         </div>
       </cube-scroll>
     </div>
+    <cube-popup class="tip" :mask="false" :content="popTip" ref="tipPopup" />
   </div>
 </template>
 
@@ -71,8 +72,16 @@ export default{
       },
       title: '',
       content: '',
-      btnDisable: true,
-      maxLength: 500
+      maxLength: 500,
+      popTip: ''
+    }
+  },
+  computed: {
+    btnDisable () {
+      return !(this.title && this.content)
+    },
+    headText () {
+      return Number.parseInt(this.$route.params.type) === 1 ? '发布通知' : '发布作业'
     }
   },
   components: {
@@ -120,6 +129,30 @@ export default{
         time: 1000,
         txt: '你选择了大于1M的图片'
       }).show()
+    },
+    publish () {
+      let files = this.$refs.upload.files
+      let fileStr = ''
+      for (let i = 0; i < files.length; i++) {
+        fileStr += files[i].response.datas
+        if (i < files.length - 1) {
+          fileStr += ','
+        }
+      }
+      this.$http.post('/api/mobile/index.php?act=member_index&op=notice_homework_add', {
+        key: this.$store.state.user.key,
+        date: (new Date(this.$route.params.date)).getTime(),
+        id: this.$route.params.id,
+        goods_id: this.$route.params.lessonId,
+        class_id: this.$route.params.classId,
+        type: this.$route.params.type,
+        title: this.title,
+        content: this.content,
+        pic: fileStr
+      }).then((res) => {
+        this.popTip = res
+        this.$common.showPopup(this.$refs.tipPopup)
+      })
     }
   }
 }
@@ -130,6 +163,10 @@ export default{
     background: #0076ff
     &:active
       background: #004eff
+    &.cube-btn_disabled
+      background: #cccccc
+  .left
+    position: absolute!important
   .select
     background: #ffffff
     p

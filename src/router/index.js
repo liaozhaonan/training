@@ -40,6 +40,8 @@ import teClassSign from '../teViews/class/sign'
 import teClassSignCode from '../teViews/class/sign-code'
 import teClassSignDetail from '../teViews/class/sign-detail'
 import teClassSignAdd from '../teViews/class/sign-add'
+import teChat from '../teViews/chat/index'
+
 Vue.use(Router)
 
 /* 登录 */
@@ -143,12 +145,12 @@ const teRouters = [
     component: teTimetable
   },
   {
-    path: '/te-lesson-detail',
+    path: '/te-lesson-detail/:id/:date',
     name: 'te-lesson-detail',
     component: teLessonDetail
   },
   {
-    path: '/te-lesson-plan',
+    path: '/te-lesson-plan/:id',
     name: 'te-lesson-plan',
     component: teLessonPlan
   },
@@ -158,12 +160,12 @@ const teRouters = [
     component: teHomework
   },
   {
-    path: '/te-homework-detail',
+    path: '/te-homework-detail/:type/:id',
     name: 'te-homework-detail',
     component: teHomeworkDetail
   },
   {
-    path: '/te-homework-publish',
+    path: '/te-homework-publish/:type/:id/:lessonId/:classId/:date',
     name: 'te-homework-publish',
     component: teHomeworkPublish
   },
@@ -231,6 +233,11 @@ const teRouters = [
     path: '/te-class-sign-add',
     name: 'te-class-sign-add',
     component: teClassSignAdd
+  },
+  {
+    path: '/te-chat',
+    name: 'te-chat',
+    component: teChat
   }
 ]
 

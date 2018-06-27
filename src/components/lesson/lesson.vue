@@ -46,15 +46,18 @@ export default{
       font-size: 0
       display: inline-block
       position: relative;
-      top: -.24rem /* -18/75 */
+      top: -.26rem /* -18/75 */
       box-sizing: border-box
       width: 76.5%
       height: 1.52rem /* 114/75 */
-      padding: .53rem /* 40/75 */ 2.19rem /* 164/75 */
       text-align: left
-      & > p
-        margin: none
-        font-size: .48rem /* 36/75 */
-        line-height: .48rem /* 36/75 */
-        color: #030303
+      & > a
+          display: inline-block
+          box-sizing: border-box
+          width: 100%
+          padding-left: 2.19rem /* 164/75 */
+          margin: none
+          line-height: 1.52rem /* 114/75 */
+          font-size: .48rem /* 36/75 */
+          color: #030303
 </style>

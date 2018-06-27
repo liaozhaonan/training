@@ -4,24 +4,24 @@
       <div class="left" name="left">
         <router-link class="back" :to="{ name: 'te-homework' }"><i></i></router-link>
       </div>
-      <div class="title"><p>作业详情</p></div>
+      <div class="title"><p>{{ headText }}</p></div>
     </top-nav>
     <div class="scroll-wrapper">
       <cube-scroll>
-        <div class="top">
-          <h2>产品课程作业</h2>
+        <div class="summary">
+          <h2>{{ info.title }}</h2>
           <p>
-            <span class="left">发布者: 张老师</span>&nbsp;
-            <span class="right">发布时间: 2017-08-25</span>
+            <span class="left">发布者: 无字段返回</span>&nbsp;
+            <span class="right">发布时间: {{ info.date }}</span>
           </p>
         </div>
         <div class="detail">
-          <p>1 完成课本50页习题</p>
-          <p>2 以荷花为原型，尽可能多的画出他的衍生结构。并在此基础上设计一套以荷花为主题的文创产品</p>
-          <p>3 课后多观察周边的有趣景象，并把它记录下来。</p>
+          <p>{{ info.content }}</p>
+          <img v-for="(p, index) in info.pic" :src="p" alt="" :key="index">
         </div>
       </cube-scroll>
     </div>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errPopup" />
   </div>
 </template>
 
@@ -30,8 +30,27 @@ import topNav from '@/components/topNav/topNav'
 export default{
   data () {
     return {
-
+      headText: '',
+      info: {},
+      errorTip: ''
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      Number.parseInt(to.params.type) === 1 ? vm.headText = '通知详情' : vm.headText = '作业详情'
+      vm.$http.post('/api/mobile/index.php?act=member_index&op=notice_homework_detail', {
+        key: vm.$store.state.user.key,
+        id: to.params.id
+      }).then((res) => {
+        if (res.error) {
+          vm.errorTip = res.error
+          vm.$common.showPopup(vm.$refs.errPopup)
+          return
+        }
+        res.date = vm.$common.getFullDate(res.date * 1000)
+        vm.info = res
+      })
+    })
   },
   components: {
     topNav
@@ -43,12 +62,14 @@ export default{
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+  header .left
+    position: absolute
   .scroll-wrapper
     position: absolute
     top: 1.38rem
     bottom: 0
     width: 100%
-    .top
+    .summary
       padding: .27rem /* 20/75 */ .4rem /* 30/75 */ .53rem /* 40/75 */
       border-bottom: 1px solid #f0f0f0
       background-color: #ffffff
@@ -72,6 +93,9 @@ export default{
         line-height: .64rem /* 48/75 */
         font-size: .43rem /* 32/75 */
         text-align: left
+        text-indent: .85rem /* 64/75 */
         color: #333333
-
+      img
+        width: 95%
+        margin-top: .27rem /* 20/75 */
 </style>

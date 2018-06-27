@@ -2,7 +2,7 @@
   <div>
     <top-nav>
       <div class="left" name="left">
-        <router-link class="back" :to="{ name: 'te-class-mark-step-1' }"><i></i></router-link>
+        <router-link class="back" :to="{ name: 'te-class-sign' }"><i></i></router-link>
       </div>
       <div class="title"><p>添加签到活动</p></div>
     </top-nav>
@@ -13,7 +13,7 @@
       <cube-input v-model="activity" placeholder="请输入活动名称"></cube-input>
       <p>活动地址</p>
       <div class="content-box">
-        <cube-textarea v-model="address" name="content" placeholder="请输入详细活动地址" :maxlength="maxLength"></cube-textarea>
+        <cube-textarea v-model="address" name="address" placeholder="请输入详细活动地址" :maxlength="maxLength"></cube-textarea>
       </div>
     </div>
     <div class="btn">
