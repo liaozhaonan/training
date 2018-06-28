@@ -9,60 +9,33 @@
     </top-nav>
     <top-nav id="second">
       <div class="left">
-        <router-link class="back" :to="{ path: '' }"><i></i></router-link>
+        <a class="back"  @click="getPrev()"><i></i></a>
       </div>
-      <div class="title"><p>2018-06-22</p></div>
-      <div class="right"><a class="forward"><i></i></a></div>
+      <div class="title"><p>{{ selectedDate }}</p></div>
+      <div class="right">
+        <a class="forward" @click="getNext()"><i></i></a>
+      </div>
     </top-nav>
     <div class="scroll-wrapper">
       <cube-scroll>
         <div class="am">
-          <lesson>
-            <p slot="no" class="no">第一节</p>
-            <p slot="time" class="time">8:00-8:45</p>
-            <p>数学</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第二节</p>
-            <p slot="time" class="time">8:55-9:40</p>
-            <p>英语</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第三节</p>
-            <p slot="time" class="time">9:50-10:35</p>
-            <p>化学</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第四节</p>
-            <p slot="time" class="time">10:45-11:30</p>
-            <p>语文</p>
+          <lesson  v-for="item in amList" :key="item.id">
+            <p slot="no" class="no">{{ item.lessons }}</p>
+            <p slot="time" class="time">{{ item.start_time }}-{{ item.end_time }}</p>
+            <router-link :to="{ name: 'lesson-detail', params: {id: item.id, date: selectedDate} }">{{ item.goods_name }}</router-link>
           </lesson>
         </div>
-        <p class="noon">午休</p>
+        <p v-if="amList.length && pmList.length" class="noon">午休</p>
         <div class="pm">
-          <lesson>
-            <p slot="no" class="no">第五节</p>
-            <p slot="time" class="time">14:00-14:45</p>
-            <p>物理</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第六节</p>
-            <p slot="time" class="time">14:55-15:40</p>
-            <p>体育</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第七节</p>
-            <p slot="time" class="time">16:10-16:55</p>
-            <p>生物</p>
-          </lesson>
-          <lesson>
-            <p slot="no" class="no">第八节</p>
-            <p slot="time" class="time">17:05-17:50</p>
-            <p>活动</p>
+          <lesson  v-for="item in pmList" :key="item.id">
+            <p slot="no" class="no">{{ item.lessons }}</p>
+            <p slot="time" class="time">{{ item.start_time }}-{{ item.end_time }}</p>
+            <router-link :to="{ name: 'lesson-detail', params: {id: item.id, date: selectedDate} }">{{ item.goods_name }}</router-link>
           </lesson>
         </div>
       </cube-scroll>
     </div>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errPopup" />
     <st-foot-nav :footItem="footItem"></st-foot-nav>
   </div>
 </template>
@@ -75,7 +48,11 @@ import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
-      footItem: 1
+      footItem: 1,
+      selectedDate: '',
+      amList: [],
+      pmList: [],
+      errorTip: ''
     }
   },
   components: {
@@ -83,8 +60,38 @@ export default{
     stFootNav,
     lesson
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.selectedDate = vm.$common.getFullDate()
+      vm.getLessons()
+    })
+  },
   methods: {
-
+    getLessons () {
+      this.amList = []
+      this.pmList = []
+      this.$http.post('/api/mobile/index.php?act=student_index&op=student_class_all', {
+        key: this.$store.state.user.key,
+        time: (new Date(this.selectedDate)).getTime()
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        for (let i = 0; i < res.length; i++) {
+          res[i].sort < 5 ? this.amList.push(res[i]) : this.pmList.push(res[i])
+        }
+      })
+    },
+    getPrev () {
+      this.selectedDate = this.$common.getFullDate(this.selectedDate, -1)
+      this.getLessons()
+    },
+    getNext () {
+      this.selectedDate = this.$common.getFullDate(this.selectedDate, 1)
+      this.getLessons()
+    }
   }
 }
 </script>

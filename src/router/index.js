@@ -41,6 +41,11 @@ import teClassSignCode from '../teViews/class/sign-code'
 import teClassSignDetail from '../teViews/class/sign-detail'
 import teClassSignAdd from '../teViews/class/sign-add'
 import teChat from '../teViews/chat/index'
+import teChatForum from '../teViews/chat/forum'
+import teChatForumPostCreating from '../teViews/chat/post-creating'
+import teChatForumPostDetail from '../teViews/chat/post-detail'
+import teSettings from '../teViews/settings/index'
+import teSettingsChange from '../teViews/settings/change'
 
 Vue.use(Router)
 
@@ -71,32 +76,32 @@ const stRouters = [
     component: signed
   },
   {
-    path: '/sign-record',
+    path: '/sign/record',
     name: 'sign-record',
     component: signRecord
   },
   {
-    path: '/examine-type',
+    path: '/examine/type',
     name: 'examine-type',
     component: examineType
   },
   {
-    path: '/examine-detail',
+    path: '/examine/detail',
     name: 'examine-detail',
     component: examineDetail
   },
   {
-    path: '/examine-compare',
+    path: '/examine/compare',
     name: 'examine-compare',
     component: examineCompare
   },
   {
-    path: '/lesson-detail',
+    path: '/lesson/:id/detail/:date',
     name: 'lesson-detail',
     component: lessonDetail
   },
   {
-    path: '/lesson-progress',
+    path: '/lesson/progress',
     name: 'lesson-progress',
     component: lessonProgress
   },
@@ -106,7 +111,7 @@ const stRouters = [
     component: homework
   },
   {
-    path: '/homework-detail',
+    path: '/homework/detail',
     name: 'homework-detail',
     component: homeworkDetail
   },
@@ -116,12 +121,12 @@ const stRouters = [
     component: selectIndex
   },
   {
-    path: '/select-subject',
+    path: '/select/subject',
     name: 'select-subject',
     component: selectSubject
   },
   {
-    path: '/select-detail',
+    path: '/select/detail',
     name: 'select-detail',
     component: selectDetail
   },
@@ -145,12 +150,12 @@ const teRouters = [
     component: teTimetable
   },
   {
-    path: '/te-lesson-detail/:id/:date',
+    path: '/te-lesson/:id/detail/:date',
     name: 'te-lesson-detail',
     component: teLessonDetail
   },
   {
-    path: '/te-lesson-plan/:id',
+    path: '/te-lesson/plan/:id',
     name: 'te-lesson-plan',
     component: teLessonPlan
   },
@@ -160,12 +165,12 @@ const teRouters = [
     component: teHomework
   },
   {
-    path: '/te-homework-detail/:type/:id',
+    path: '/te-homework/detail/:type/:id',
     name: 'te-homework-detail',
     component: teHomeworkDetail
   },
   {
-    path: '/te-homework-publish/:type/:id/:lessonId/:classId/:date',
+    path: '/te-homework/publish/:type/:id/:lessonId/:classId/:date',
     name: 'te-homework-publish',
     component: teHomeworkPublish
   },
@@ -175,62 +180,62 @@ const teRouters = [
     component: teClass
   },
   {
-    path: '/te-class-setting',
+    path: '/te-class/setting',
     name: 'te-class-setting',
     component: teClassSetting
   },
   {
-    path: '/te-class-roll',
+    path: '/te-class/roll',
     name: 'te-class-roll',
     component: teClassRoll
   },
   {
-    path: '/te-class-attendance',
+    path: '/te-class/attendance',
     name: 'te-class-attendance',
     component: teClassAttendance
   },
   {
-    path: '/te-class-attendance-detail',
+    path: '/te-class/attendance/detail',
     name: 'te-class-attendance-detail',
     component: teClassAttendanceDetail
   },
   {
-    path: '/te-class-mark-step-1',
+    path: '/te-class/mark/step-1',
     name: 'te-class-mark-step-1',
     component: teClassMark1
   },
   {
-    path: '/te-class-mark-step-2',
+    path: '/te-class/mark/step-2',
     name: 'te-class-mark-step-2',
     component: teClassMark2
   },
   {
-    path: '/te-class-mark-step-3',
+    path: '/te-class/mark/step-3',
     name: 'te-class-mark-step-3',
     component: teClassMark3
   },
   {
-    path: '/te-class-recruit',
+    path: '/te-class/recruit',
     name: 'te-class-recruit',
     component: teClassRecruit
   },
   {
-    path: '/te-class-sign',
+    path: '/te-class/sign',
     name: 'te-class-sign',
     component: teClassSign
   },
   {
-    path: '/te-class-sign-code',
+    path: '/te-class/sign/code',
     name: 'te-class-sign-code',
     component: teClassSignCode
   },
   {
-    path: '/te-class-sign-detail',
+    path: '/te-class/sign/detail',
     name: 'te-class-sign-detail',
     component: teClassSignDetail
   },
   {
-    path: '/te-class-sign-add',
+    path: '/te-class/sign/add',
     name: 'te-class-sign-add',
     component: teClassSignAdd
   },
@@ -238,6 +243,31 @@ const teRouters = [
     path: '/te-chat',
     name: 'te-chat',
     component: teChat
+  },
+  {
+    path: '/te-chat/forum/:id',
+    name: 'te-chat-forum',
+    component: teChatForum
+  },
+  {
+    path: '/te-chat/forum/:id/post/creating',
+    name: 'te-chat-forum-post-creating',
+    component: teChatForumPostCreating
+  },
+  {
+    path: '/te-chat/forum/post/:id/detail',
+    name: 'te-chat-forum-post-detail',
+    component: teChatForumPostDetail
+  },
+  {
+    path: '/te-settings',
+    name: 'te-settings',
+    component: teSettings
+  },
+  {
+    path: '/te-settings/change',
+    name: 'te-settings-change',
+    component: teSettingsChange
   }
 ]
 

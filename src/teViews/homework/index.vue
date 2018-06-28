@@ -2,7 +2,7 @@
   <div>
     <div class="top">
       <label>
-        <span class="note" :class="{'active': showSide === 1}" @click="getList(1)">通知</span><span class="work" :class="{'active': showSide === 2}" @click="getList(2)">作业</span>
+        <span class="note" :class="{'active': showTab === 1}" @click="getList(1)">通知</span><span class="work" :class="{'active': showTab === 2}" @click="getList(2)">作业</span>
       </label>
       <!-- <span class="right">发布</span> -->
     </div>
@@ -29,7 +29,7 @@ export default{
       footItem: 2,
       noteList: [],
       homeworkList: [],
-      showSide: 1,
+      showTab: 1,
       showList: [],
       errorTip: ''
     }
@@ -56,14 +56,14 @@ export default{
     })
   },
   methods: {
-    getList (type) {
+    getList (tab) {
       // 点击后实时显示当前面板的列表
-      this.showSide = type
-      type === 1 ? this.showList = this.noteList : this.showList = this.homeworkList
+      this.showTab = tab
+      tab === 1 ? this.showList = this.noteList : this.showList = this.homeworkList
 
       this.$http.post('/api/mobile/index.php?act=member_index&op=notice_homework_list', {
         key: this.$store.state.user.key,
-        type: type
+        type: tab
       }).then((res) => {
         if (res.error) {
           this.errorTip = res.error
@@ -75,7 +75,7 @@ export default{
           res[i].date = this.$common.getFullDate(res[i].date * 1000)
         }
         // 异步请求成功后更新显示列表,并将请求结果存入相应类别的列表, 以便下次切换时能够实时替换为显示列表
-        type === 1 ? this.showList = this.noteList = res : this.showList = this.homeworkList = res
+        tab === 1 ? this.showList = this.noteList = res : this.showList = this.homeworkList = res
       })
     }
   }

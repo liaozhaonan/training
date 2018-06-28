@@ -25,7 +25,7 @@
       </router-link>
     </li>
     <li class="item5" :class="{'on': itemIndex === 5}">
-      <router-link :to="{ name: 'te-setting' }">
+      <router-link :to="{ name: 'te-settings' }">
         <div class="icon"></div>
         <p>设置</p>
       </router-link>

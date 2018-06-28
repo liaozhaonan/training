@@ -2,11 +2,11 @@
   <div>
     <div class="top">
       <label>
-        <span class="group" :class="{'active': showSide === 1}" @click="switchSide(1)">我的班级</span><span class="forum" :class="{'active': showSide === 2}" @click="switchSide(2)">学校论坛</span>
+        <span class="group" :class="{'active': showTab === 1}" @click="switchSide(1)">我的班级</span><span class="forum" :class="{'active': showTab === 2}" @click="switchSide(2)">学校论坛</span>
       </label>
     </div>
     <div class="list">
-      <cube-scroll v-show="showSide === 1">
+      <cube-scroll v-show="showTab === 1" id="groupPane">
         <router-link v-for="item in groupList" :to="{ name: '', params: {} }" :key="item.id" >
           <div class="item">
             <p>{{ item.class_name }}<span class="right">{{ item.date }}</span></p>
@@ -14,9 +14,12 @@
           </div>
         </router-link>
       </cube-scroll>
-      <cube-scroll v-show="showSide === 2">
-        <router-link v-for="(item, index) in forumList" :to="{ name: '', params: {} }" :key="index" >
-
+      <cube-scroll v-show="showTab === 2" id="forumPane">
+        <router-link  v-for="item in forumList" :to="{ name: 'te-chat-forum', params: {id: item.id}, query: {forum: item.forum_name} }" :key="item.id" >
+          <div class="item">
+            <img :src="item.forum_img" alt="">
+            <div class="name">{{ item.forum_name }}</div>
+          </div>
         </router-link>
       </cube-scroll>
     </div>
@@ -33,7 +36,7 @@ export default{
       footItem: 4,
       groupList: [],
       forumList: [],
-      showSide: 1,
+      showTab: 1,
       errorTip: ''
     }
   },
@@ -54,25 +57,24 @@ export default{
         for (let i = 0; i < res.length; i++) {
           res[i].date = vm.$common.getFullDate(res[i].date * 1000)
         }
-        vm.showList = vm.groupList = res
+        vm.groupList = res
       })
 
       vm.$http.post('/api/mobile/index.php?act=forum&op=forum_list', {
         key: vm.$store.state.user.key
       }).then((res) => {
         if (res.error) {
-          this.errorTip = res.error
-          this.$common.showPopup(this.$refs.errPopup)
+          vm.errorTip = res.error
+          vm.$common.showPopup(vm.$refs.errPopup)
           return
         }
-        console.log(res)
-        this.forumList = res
+        vm.forumList = res
       })
     })
   },
   methods: {
-    switchSide (side) {
-      this.showSide = side
+    switchSide (tab) {
+      this.showTab = tab
     },
     getGroupList () {
       this.$http.post('/api/mobile/index.php?act=forum&op=forum_list', {
@@ -88,7 +90,7 @@ export default{
           res[i].date = this.$common.getFullDate(res[i].date * 1000)
         }
         // 异步请求成功后更新显示列表,并将请求结果存入相应类别的列表, 以便下次切换时能够实时替换为显示列表
-      this.groupList = res
+        this.groupList = res
       })
     },
     getForumList () {
@@ -100,7 +102,6 @@ export default{
           this.$common.showPopup(this.$refs.errPopup)
           return
         }
-        console.log(res)
         this.forumList = res
       })
     }
@@ -147,24 +148,50 @@ export default{
     top: 1.38rem
     bottom: 1.33rem
     width: 100%
-    .item
-      position: relative
-      padding: .11rem /* 8/75 */ 0 .11rem /* 8/75 */ .4rem /* 30/75 */
-      text-align: left
-      border-bottom: 1px solid #f5f5f5
-      color: #333333
+    #groupPane
+      .item
+        position: relative
+        padding: .11rem /* 8/75 */ 0 .11rem /* 8/75 */ .4rem /* 30/75 */
+        text-align: left
+        border-bottom: 1px solid #f5f5f5
+        color: #333333
+        background: #ffffff
+        p
+          height: .8rem /* 60/75 */
+          line-height: .8rem /* 60/75 */
+          font-size: .43rem /* 32/75 */
+        span
+          display: inline-block
+          height: .53rem /* 40/75 */
+          line-height: .53rem /* 40/75 */
+          font-size: .33rem /* 25/75 */
+          color: #8F8E94
+          &.right
+            float: right
+            margin: .13rem /* 10/75 */ .53rem /* 40/75 */
+    #forumPane
+      padding:  1.07rem /* 80/75 */ .2rem /* 15/75 */
       background: #ffffff
-      p
-        height: .8rem /* 60/75 */
-        line-height: .8rem /* 60/75 */
-        font-size: .43rem /* 32/75 */
-      span
+      .item
         display: inline-block
-        height: .53rem /* 40/75 */
-        line-height: .53rem /* 40/75 */
-        font-size: .33rem /* 25/75 */
-        color: #8F8E94
-        &.right
-          float: right
-          margin: .13rem /* 10/75 */ .53rem /* 40/75 */
+        position: relative
+        width: 4rem /* 300/75 */
+        height: 3.33rem /* 250/75 */
+        margin: 0 calc((49% - 4rem) / 2) .8rem /* 60/75 */
+        border-radius: .13rem /* 10/75 */
+        overflow: hidden
+        img
+          width: 4rem /* 300/75 */
+          height: 3.33rem /* 250/75 */
+        .name
+          position: absolute
+          top: 0
+          bottom: 0
+          width: 100%
+          line-height: 3.33rem /* 250/75 */
+          font-size: .43rem /* 32/75 */
+          word-break: break-all
+          white-space: pre-wrap
+          color: #ffffff
+          background: rgba(0, 0, 0, 0.65)
 </style>

@@ -8,11 +8,12 @@
     </top-nav>
     <h5>语文</h5>
     <div class="info">
-      <p><i class="person"></i><span>任课老师</span><span class="right">张老师</span></p>
+      <p><i class="person"></i><span>任课老师</span><span class="right">{{ lesson.store_name }}</span></p>
       <p><i class="note"></i><span>通知</span><span class="right">一条最新消息</span></p>
       <p><i class="homework"></i><span>作业</span><span class="right">一项未完成</span></p>
-      <p class="time"><i class="clock"></i>上课时间<span class="right">每周一，三，五8:00-8:45 <i class="right"></i></span></p>
+      <p class="time"><i class="clock"></i>上课时间<span class="right">{{ lesson.week }}/{{ lesson.start_time }}-{{ lesson.end_time }} <i class="right"></i></span></p>
     </div>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errPopup" />
   </div>
 </template>
 
@@ -21,18 +22,34 @@ import topNav from '@/components/topNav/topNav'
 export default{
   data () {
     return {
-
+      lesson: {},
+      errorTip: ''
     }
   },
   components: {
     topNav
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$http.post('/api/mobile/index.php?act=student_index&op=student_class_detail', {
+        key: vm.$store.state.user.key,
+        id: to.params.id
+      }).then((res) => {
+        if (res.error) {
+          vm.errorTip = res.error
+          vm.$common.showPopup(vm.$refs.errPopup)
+          return
+        }
+        vm.lesson = res
+      })
+    })
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   h5
-    width: 100%
+    width: 95%
     height: 1.17rem /* 88/75 */
     padding-left: 5%
     line-height: 1.17rem /* 88/75 */

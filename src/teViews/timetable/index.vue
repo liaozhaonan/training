@@ -13,7 +13,15 @@
     <div class="scroll-wrapper">
       <cube-scroll>
         <div class="am">
-          <lesson  v-for="item in lessonList" :key="item.id">
+          <lesson  v-for="item in amList" :key="item.id">
+            <p slot="no" class="no">{{ item.lessons }}</p>
+            <p slot="time" class="time">{{ item.start_time }}-{{ item.end_time }}</p>
+            <router-link :to="{ name: 'te-lesson-detail', params: {id: item.id, date: selectedDate} }">{{ item.goods_name }}</router-link>
+          </lesson>
+        </div>
+        <p v-if="amList.length && pmList.length" class="noon">午休</p>
+        <div class="pm">
+          <lesson  v-for="item in pmList" :key="item.id">
             <p slot="no" class="no">{{ item.lessons }}</p>
             <p slot="time" class="time">{{ item.start_time }}-{{ item.end_time }}</p>
             <router-link :to="{ name: 'te-lesson-detail', params: {id: item.id, date: selectedDate} }">{{ item.goods_name }}</router-link>
@@ -34,10 +42,11 @@ import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
-      footItem: 1,
-      errorTip: '',
       selectedDate: '',
-      lessonList: []
+      amList: [],
+      pmList: [],
+      footItem: 1,
+      errorTip: ''
     }
   },
   computed: {
@@ -55,6 +64,8 @@ export default{
   },
   methods: {
     getLessons () {
+      this.amList = []
+      this.pmList = []
       this.$http.post('/api/mobile/index.php?act=member_index&op=taecher_class_all', {
         key: this.$store.state.user.key,
         time: (new Date(this.selectedDate)).getTime()
@@ -64,7 +75,9 @@ export default{
           this.$common.showPopup(this.$refs.errPopup)
           return
         }
-        this.lessonList = res
+        for (let i = 0; i < res.length; i++) {
+          res[i].sort < 5 ? this.amList.push(res[i]) : this.pmList.push(res[i])
+        }
       })
     },
     getPrev () {
