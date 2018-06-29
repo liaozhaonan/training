@@ -150,8 +150,12 @@ export default{
         content: this.content,
         pic: fileStr
       }).then((res) => {
-        this.popTip = res
+        this.title = this.content = this.$refs.upload.files = ''
+        res.error ? this.popTip = res.error : this.popTip = res
         this.$common.showPopup(this.$refs.tipPopup)
+        setTimeout(() => {
+          this.$router.go(-1)
+        }, 2000)
       })
     }
   }

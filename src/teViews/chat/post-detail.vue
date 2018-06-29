@@ -20,6 +20,10 @@
         </div>
         <div class="comment-list">
           <label>回帖列表({{ posting.reply_num }})</label>
+          <div class="comment" v-for="comment in comments" :key="comment.id">
+            <p>{{ comment.content }}</p>
+            <p class="tag">{{ comment.member_name }}<span>{{ $common.getFullDate(comment.add_time * 1000) }}</span></p>
+          </div>
         </div>
         <div class="reply">
           <cube-textarea v-model="content" name="content" placeholder="请输入内容" :maxlength="maxLength"></cube-textarea>
@@ -37,6 +41,7 @@ export default{
   data () {
     return {
       posting: {},
+      comments: [],
       content: '',
       maxLength: 500,
       popTip: ''
@@ -44,23 +49,40 @@ export default{
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.$http.post('/api/mobile/index.php?act=forum&op=dynamic_detail', {
-        key: vm.$store.state.user.key,
-        id: vm.$route.params.id
-      }).then((res) => {
-        if (res.error) {
-          vm.errorTip = res.error
-          vm.$common.showPopup(vm.$refs.errPopup)
-          return
-        }
-        vm.posting = res
-      })
+      vm.getPostDetail()
+      vm.getPostComments()
     })
   },
   components: {
     topNav
   },
   methods: {
+    getPostDetail () {
+      this.$http.post('/api/mobile/index.php?act=forum&op=dynamic_detail', {
+        key: this.$store.state.user.key,
+        id: this.$route.params.id
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        this.posting = res
+      })
+    },
+    getPostComments () {
+      this.$http.post('/api/mobile/index.php?act=forum&op=reply_list', {
+        key: this.$store.state.user.key,
+        id: this.$route.params.id
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        this.comments = res
+      })
+    },
     reply () {
       this.$http.post('/api/mobile/index.php?act=forum&op=dynamic_reply_add', {
         key: this.$store.state.user.key,
@@ -122,12 +144,13 @@ export default{
     label
       display: block
       width: 100%
+      padding-bottom: .27rem /* 20/75 */
       line-height: .43rem /* 32/75 */
       font-size: .37rem /* 28/75 */
       &:before
         content: ''
         position: absolute
-        top: 49%
+        top: .2rem /* 15/75 */
         left: 28%
         background: #888888
         width: 8%
@@ -135,11 +158,30 @@ export default{
       &:after
         content: ''
         position: absolute
-        top: 49%
+        top: .2rem /* 15/75 */
         right: 28%
         background: #888888
         width: 8%
         height: .03rem /* 2/75 */
+    .comment
+      box-sizing: border-box
+      width: calc(100% - 1.33rem /* 100/75 */)
+      height: 1.76rem /* 132/75 */
+      padding: .27rem /* 20/75 */ .67rem /* 50/75 */
+      margin: .13rem /* 10/75 */  0
+      border-bottom: 1px solid #f2f2f2
+      p
+        text-align: left
+        font-size: .43rem /* 32/75 */
+        line-height: .67rem /* 50/75 */
+        color: #666666
+        &.tag
+          padding-top: .16rem /* 12/75 */
+          line-height: .32rem /* 24/75 */
+          font-size: .32rem /* 24/75 */
+          color: #aaaaaa
+          span
+            float: right
   .reply
     padding: 1rem 1rem 3rem
     .cube-textarea-wrapper

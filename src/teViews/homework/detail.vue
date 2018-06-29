@@ -2,22 +2,25 @@
   <div>
     <top-nav>
       <div class="left" name="left">
-        <router-link class="back" :to="{ name: 'te-homework' }"><i></i></router-link>
+        <a class="back" @click="$router.go(-1)"><i></i></a>
       </div>
       <div class="title"><p>{{ headText }}</p></div>
     </top-nav>
     <div class="scroll-wrapper">
       <cube-scroll>
-        <div class="summary">
-          <h2>{{ info.title }}</h2>
-          <p>
-            <span class="left">发布者: 无字段返回</span>&nbsp;
-            <span class="right">发布时间: {{ info.date }}</span>
-          </p>
-        </div>
-        <div class="detail">
-          <p>{{ info.content }}</p>
-          <img v-for="(p, index) in info.pic" :src="p" alt="" :key="index">
+        <div>
+          <div class="summary">
+            <h2>{{ info.title }}</h2>
+            <p>
+              <span class="left">发布者: {{ info.store_name }}</span>&nbsp;
+              <span class="right">发布时间: {{ $common.getFullDate(info.date * 1000) }}</span>
+            </p>
+          </div>
+          <div class="detail">
+            <p>{{ info.content }}</p>
+            <img v-for="(p, index) in info.pic" :src="p" alt="" :key="index">
+            <p class="end">The end.</p>
+          </div>
         </div>
       </cube-scroll>
     </div>
@@ -37,38 +40,42 @@ export default{
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      Number.parseInt(to.params.type) === 1 ? vm.headText = '通知详情' : vm.headText = '作业详情'
-      vm.$http.post('/api/mobile/index.php?act=member_index&op=notice_homework_detail', {
-        key: vm.$store.state.user.key,
-        id: to.params.id
-      }).then((res) => {
-        if (res.error) {
-          vm.errorTip = res.error
-          vm.$common.showPopup(vm.$refs.errPopup)
-          return
-        }
-        res.date = vm.$common.getFullDate(res.date * 1000)
-        vm.info = res
-      })
+      vm.getDetail()
     })
   },
   components: {
     topNav
   },
   methods: {
-
+    getDetail () {
+      Number.parseInt(this.$route.params.type) === 1 ? this.headText = '通知详情' : this.headText = '作业详情'
+      this.$http.post('/api/mobile/index.php?act=member_index&op=notice_homework_detail', {
+        key: this.$store.state.user.key,
+        id: this.$route.params.id
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        this.info = res
+      })
+    }
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  header .left
-    position: absolute
+  header
+    .left
+      position: absolute
   .scroll-wrapper
     position: absolute
     top: 1.38rem
     bottom: 0
     width: 100%
+    overflow: hidden
+    background: #ffffff
     .summary
       padding: .27rem /* 20/75 */ .4rem /* 30/75 */ .53rem /* 40/75 */
       border-bottom: 1px solid #f0f0f0
@@ -98,4 +105,9 @@ export default{
       img
         width: 95%
         margin-top: .27rem /* 20/75 */
+      .end
+        line-height: .67rem /* 50/75 */
+        font-size: .32rem /* 24/75 */
+        text-align: right
+        margin-right: 2.5%
 </style>

@@ -2,7 +2,8 @@
   <div>
     <div class="top">
       <label>
-        <span class="note" :class="{'active': showTab === 1}" @click="getList(1)">通知</span><span class="work" :class="{'active': showTab === 2}" @click="getList(2)">作业</span>
+        <span class="note" :class="{'active': showTab === 1}" @click="getList(1)">通知</span>
+        <span class="work" :class="{'active': showTab === 2}" @click="getList(2)">作业</span>
       </label>
       <!-- <span class="right">发布</span> -->
     </div>
@@ -26,12 +27,12 @@ import teFootNav from '@/components/te/footNav/footNav'
 export default{
   data () {
     return {
-      footItem: 2,
-      noteList: [],
-      homeworkList: [],
       showTab: 1,
       showList: [],
-      errorTip: ''
+      noteList: [],
+      homeworkList: [],
+      errorTip: '',
+      footItem: 2
     }
   },
   components: {
@@ -39,20 +40,7 @@ export default{
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.$http.post('/api/mobile/index.php?act=member_index&op=notice_homework_list', {
-        key: vm.$store.state.user.key,
-        type: 1
-      }).then((res) => {
-        if (res.error) {
-          vm.errorTip = res.error
-          vm.$common.showPopup(vm.$refs.errPopup)
-          return
-        }
-        for (let i = 0; i < res.length; i++) {
-          res[i].date = vm.$common.getFullDate(res[i].date * 1000)
-        }
-        vm.showList = vm.noteList = res
-      })
+      vm.getList(1)
     })
   },
   methods: {
@@ -90,22 +78,21 @@ export default{
     font-size: 0
     text-align: center
     background: #fafafa
-    span
-      display: inline-block
-      box-sizing: border-box
-      width: 2.03rem /* 152/75 */
-      height: .8rem /* 60/75 */
-      line-height: .85rem /* 60/75 */
-      font-size: .43rem /* 32/75 */
-      color: #0076FF
     label
       display: inline-block
       height: 0.8rem
       margin-top: 0.19rem
       // border: 1px solid #0076ff
+      font-size: 0
       border-radius: .11rem /* 8/75 */
       overflow: hidden
       span
+        display: inline-block
+        box-sizing: border-box
+        width: 2.03rem /* 152/75 */
+        height: .8rem /* 60/75 */
+        line-height: .85rem /* 60/75 */
+        font-size: .43rem /* 32/75 */
         color: #aaa
         background: #eee
         &.active

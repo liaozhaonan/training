@@ -6,8 +6,9 @@
       </div>
       <div class="title"><p>添加签到活动</p></div>
     </top-nav>
-    <p class="chose">班级<span @click="showClassPicker">{{ selectedClass.text }}<i></i></span></p>
-    <p class="chose">扫码有效时间<span @click="showTimePicker">{{ selectedTime.text }}<i></i></span></p>
+    <p class="chose">年级<span @click="showGradePicker">{{ selectedGrade.text }}<i></i></span></p>
+    <p class="chose">班别<span @click="showClassPicker">{{ selectedClass.text }}<i></i></span></p>
+    <p class="chose">扫码有效时间<span @click="showTimePicker">{{ selectedValidTime.text }}<i></i></span></p>
     <div class="text">
       <p>活动名称</p>
       <cube-input v-model="activity" placeholder="请输入活动名称"></cube-input>
@@ -17,57 +18,52 @@
       </div>
     </div>
     <div class="btn">
-      <cube-button :disabled="btnDisable">马上发布</cube-button>
+      <cube-button :disabled="btnDisable" @click="submit()">马上发布</cube-button>
     </div>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errPopup" />
   </div>
 </template>
 
 <script>
 import topNav from '@/components/topNav/topNav'
 
-const classData = [
-  {
-    text: '产品1班', value: '1'
-  },
-  {
-    text: '设计1班', value: '2'
-  },
-  {
-    text: '美术1班', value: '3'
-  }
-]
-
 const timeData = [
   {
-    text: '5分钟', value: '1'
+    text: '5分钟', value: '300'
   },
   {
-    text: '10分钟', value: '2'
+    text: '10分钟', value: '600'
   },
   {
-    text: '20分钟', value: '3'
+    text: '20分钟', value: '1200'
   }
 ]
 
 export default{
   data () {
     return {
+      classData: [],
+      selectedGrade: {
+        text: '请选择',
+        value: ''
+      },
       selectedClass: {
         text: '请选择',
-        value: 0
+        value: ''
       },
-      selectedTime: {
+      selectedValidTime: {
         text: '请选择',
-        value: 0
+        value: ''
       },
       activity: '',
       address: '',
-      maxLength: 100
+      maxLength: 100,
+      errorTip: ''
     }
   },
   computed: {
     btnDisable () {
-      return !(this.selectedClass.value && this.selectedTime.value && this.activity && this.address)
+      return !(this.selectedClass.value && this.selectedValidTime.value && this.activity && this.address)
     },
     key () {
       return this.$store.state.key
@@ -77,11 +73,25 @@ export default{
     topNav
   },
   methods: {
+    showGradePicker () {
+      if (!this.gradePicker) {
+        this.gradePicker = this.$createPicker({
+          title: '选择年级',
+          data: [this.$store.state.gradeData],
+          onSelect: (selectedVal, selectedIndex, selectedText) => {
+            this.selectedGrade.text = selectedText[0]
+            this.selectedGrade.value = selectedVal[0]
+            this.getClassData(this.selectedGrade.value)
+          }
+        })
+      }
+      this.gradePicker.show()
+    },
     showClassPicker () {
       if (!this.classPicker) {
         this.classPicker = this.$createPicker({
-          title: '选择班级',
-          data: [classData],
+          title: '选择班别',
+          data: [this.classData],
           onSelect: (selectedVal, selectedIndex, selectedText) => {
             this.selectedClass.text = selectedText[0]
             this.selectedClass.value = selectedVal[0]
@@ -93,32 +103,60 @@ export default{
     showTimePicker () {
       if (!this.timePicker) {
         this.timePicker = this.$createPicker({
-          title: '选择班级',
+          title: '选择扫码有效时间',
           data: [timeData],
           onSelect: (selectedVal, selectedIndex, selectedText) => {
-            this.selectedTime.text = selectedText[0]
-            this.selectedTime.value = selectedVal[0]
+            this.selectedValidTime.text = selectedText[0]
+            this.selectedValidTime.value = selectedVal[0]
           }
         })
       }
       this.timePicker.show()
+    },
+    getClassData (gradeId) {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=teacher_class_list', {
+        key: this.$store.state.user.key,
+        id: gradeId
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        let classData = []
+        for (let i = 0; i < res.length; i++) {
+          let cls = { text: res[i].name, value: res[i].id }
+          classData.push(cls)
+        }
+        this.classData = classData
+      })
+    },
+    submit () {
+      this.$http.post('/api/mobile/index.php?act=qrcode&op=scene_sign_add', {
+        key: this.$store.state.user.key,
+        type: 2,
+        vld: this.selectedValidTime.value,
+        class_id: this.selectedClass.value,
+        name: this.activity,
+        address: this.address
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        this.errorTip = '发布成功'
+        this.$common.showPopup(this.$refs.errPopup)
+        setTimeout(() => {
+          this.$router.replace({ name: 'te-class-sign-code', query: {img: res, name: this.activity} })
+        }, 2000)
+      })
     }
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  .tip
-    box-sizing: border-box
-    width: 100%
-    height: 1.07rem /* 80/75 */
-    padding: 0 .4rem /* 30/75 */
-    line-height: 1.07rem /* 80/75 */
-    font-size: .37rem /* 28/75 */
-    text-align: left
-    color: #666666
-    span
-      float: right
   .chose
     box-sizing: border-box
     width: 100%

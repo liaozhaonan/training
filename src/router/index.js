@@ -30,6 +30,7 @@ import teHomeworkPublish from '../teViews/homework/publish'
 import teClass from '../teViews/class/index'
 import teClassSetting from '../teViews/class/lesson-setting'
 import teClassRoll from '../teViews/class/student-roll'
+import teClassRollDetail from '../teViews/class/student-roll-detail'
 import teClassAttendance from '../teViews/class/attendance'
 import teClassAttendanceDetail from '../teViews/class/attendance-detail'
 import teClassMark1 from '../teViews/class/mark-step-1'
@@ -188,6 +189,11 @@ const teRouters = [
     path: '/te-class/roll',
     name: 'te-class-roll',
     component: teClassRoll
+  },
+  {
+    path: '/te-class/roll/:classId/detail',
+    name: 'te-class-roll-detail',
+    component: teClassRollDetail
   },
   {
     path: '/te-class/attendance',

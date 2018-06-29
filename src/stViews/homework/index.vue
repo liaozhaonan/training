@@ -2,73 +2,22 @@
   <div>
     <div class="top">
       <label>
-        <span class="left">通知</span><span class="right active">作业</span>
+        <span :class="{'active': showTab === 1}" @click="getList(1)">通知</span>
+        <span  :class="{'active': showTab === 2}" @click="getList(2)">作业</span>
       </label>
     </div>
     <div class="list">
       <cube-scroll>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
-        <div class="item">
-          <p>8月17日15时作业: UI课的作业</p>
-          <span>产品1班</span>
-          <i></i>
-        </div>
+        <router-link v-for="item in showList" :to="{ name: 'homework-detail', params: {type: item.type, id: item.id} }" :key="item.id" >
+          <div class="item">
+            <p>{{ item.title }}</p>
+            <span>{{ item.class_name }}</span>
+            <i></i>
+          </div>
+        </router-link>
       </cube-scroll>
     </div>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errPopup" />
     <st-foot-nav :footItem="footItem"></st-foot-nav>
   </div>
 </template>
@@ -78,11 +27,46 @@ import stFootNav from '@/components/st/footNav/footNav'
 export default{
   data () {
     return {
+      showTab: 1,
+      showList: [],
+      noteList: [],
+      homeworkList: [],
+      errorTip: '',
       footItem: 2
     }
   },
+
   components: {
     stFootNav
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getList(1)
+    })
+  },
+  methods: {
+    getList (tab) {
+      // 点击后实时显示当前面板的列表
+      this.showTab = tab
+      tab === 1 ? this.showList = this.noteList : this.showList = this.homeworkList
+
+      this.$http.post('/api/mobile/index.php?act=student_index&op=notice_homework_list', {
+        key: this.$store.state.user.key,
+        type: tab
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        // 转换所获取到的列表项的date的格式
+        for (let i = 0; i < res.length; i++) {
+          res[i].date = this.$common.getFullDate(res[i].date * 1000)
+        }
+        // 异步请求成功后更新显示列表,并将请求结果存入相应类别的列表, 以便下次切换时能够实时替换为显示列表
+        tab === 1 ? this.showList = this.noteList = res : this.showList = this.homeworkList = res
+      })
+    }
   }
 }
 </script>
@@ -100,6 +84,7 @@ export default{
       margin-top: 0.19rem
       // border: 1px solid #0076ff
       border-radius: .11rem /* 8/75 */
+      font-size: 0
       overflow: hidden
       span
         display: inline-block
@@ -123,6 +108,7 @@ export default{
       padding: .11rem /* 8/75 */ 0 .11rem /* 8/75 */ .4rem /* 30/75 */
       text-align: left
       border-bottom: 1px solid #f5f5f5
+      color: #333333
       background: #ffffff
       p
         height: .8rem /* 60/75 */

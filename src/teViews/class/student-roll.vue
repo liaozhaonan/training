@@ -1,137 +1,123 @@
 <template>
   <div>
-      <top-nav>
-        <div class="left"><router-link class="back" :to="{ name: 'te-class' }"><i></i></router-link></div>
-        <div class="title"><p>学生名册</p></div>
-      </top-nav>
-      <top-nav class="chose-student">
-        <div class="title">
-          <div class="search-wrapper">
-            <cube-input placeholder="搜索" :clearable="clearable" v-model="searchStudent" ></cube-input>
-            <span class="search-btn">搜索</span>
-          </div>
-        </div>
-      </top-nav>
-      <div class="student-list">
-        <cube-index-list :data="studentData"  @select="selectItem" @title-click="clickTitle"></cube-index-list>
+    <top-nav>
+      <div class="left" name="left">
+        <router-link class="back" :to="{ name: 'te-class' }"><i></i></router-link>
       </div>
-      <te-foot-nav :footItem="footItem"></te-foot-nav>
-    </div>
+      <div class="title"><p>学生名册</p></div>
+    </top-nav>
+    <p class="chose">年级<span @click="showGradePicker">{{ selectedGrade.text }}<i></i></span></p>
+    <p class="chose">班别<span @click="showClassPicker">{{ selectedClass.text }}<i></i></span></p>
+  </div>
 </template>
+
 <script>
-/* eslint-disable quotes */
 import topNav from '@/components/topNav/topNav'
-import teFootNav from '@/components/te/footNav/footNav'
-/* 拼音首字母插件 https://laravel-china.org/topics/7367/indexlist-of-cube-ui-components */
-const studentData = [
-  {
-    "name": "",
-    "items": [
-    ]
-  },
-  {
-    "name": "A",
-    "items": [
-      {
-        "name": "小明",
-        "value": 3
-      },
-      {
-        "name": "小红",
-        "value": 4
-      }
-    ]
-  },
-  {
-    "name": "B",
-    "items": [
-      {
-        "name": "小强",
-        "value": 5
-      },
-      {
-        "name": "小花",
-        "value": 6
-      }
-    ]
-  }
-]
 export default{
   data () {
     return {
-      footItem: 3,
-      searchStudent: '',
-      selectedStudent: null,
-      clearable: true,
-      studentData: studentData
+      classData: [],
+      selectedGrade: {
+        text: '请选择',
+        value: ''
+      },
+      selectedClass: {
+        text: '请选择',
+        value: ''
+      },
+      errorTip: ''
     }
   },
-  computed: {
-  },
   components: {
-    topNav,
-    teFootNav
-  },
-  mounted () {
+    topNav
   },
   methods: {
-    selectItem (item) {
-      this.selectedStudent = item.value
-      console.log(this.selectedStudent + ':' + item.name)
+    showGradePicker () {
+      if (!this.gradePicker) {
+        this.gradePicker = this.$createPicker({
+          title: '选择年级',
+          data: [this.$store.state.gradeData],
+          onSelect: (selectedVal, selectedIndex, selectedText) => {
+            this.selectedGrade.text = selectedText[0]
+            this.selectedGrade.value = selectedVal[0]
+            this.getClassData(this.selectedGrade.value)
+          }
+        })
+      }
+      this.gradePicker.show()
     },
-    clickTitle (title) {
-      console.log(title)
+    showClassPicker () {
+      if (!this.classPicker) {
+        this.classPicker = this.$createPicker({
+          title: '选择班别',
+          data: [this.classData],
+          onSelect: (selectedVal, selectedIndex, selectedText) => {
+            this.selectedClass.text = selectedText[0]
+            this.selectedClass.value = selectedVal[0]
+            if (this.selectedGrade.value && this.selectedClass.value) {
+              setTimeout(() => {
+                this.$router.push({name: 'te-class-roll-detail', params: { classId: this.selectedClass.value }})
+              }, 1500)
+            }
+          }
+        })
+      }
+      this.classPicker.show()
+    },
+    getClassData (gradeId) {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=teacher_class_list', {
+        key: this.$store.state.user.key,
+        id: gradeId
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        let classData = []
+        for (let i = 0; i < res.length; i++) {
+          let cls = { text: res[i].name, value: res[i].id }
+          classData.push(cls)
+        }
+        this.classData = classData
+      })
     }
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  header
-    border-bottom: 1px solid #f5f5f5
-  .left
-    position: absolute!important
-    i.back
-      width: 1rem
-      height: 1.38rem
-  .chose-student
-    .title
-      width: 90%
-    .search-wrapper
-      position: relative
-      height: 1.18rem /* 60/75 */
-      padding: .1rem /* 4/75 */ .27rem /* 20/75 */
-      background: #ffffff
-      .cube-input
-        position: absolute
-        top: .1rem /* 4/75 */
-        left: 0
-        width: 62%
-        height: 0.9rem
-        padding: 0 0.3rem 0 1rem /* 75/75 */
-        margin-top: 0.1rem
-        border-radius: 0.16rem
-        background: url(../../assets/img/select/search.png) no-repeat
-        background-color: #f2f2f2
-        background-size: .43rem /* 32/75 */.43rem /* 32/75 */
-        background-position: .4rem /* 30/75 */ center
-        overflow: hidden
-        input.cube-input-field
-          background-color: none!important
-      .search-btn
-        display: inline-block
-        float: right
-        width: 1.82rem /* 140/75 */
-        height: 1rem
-        margin-top: 0.1rem
-        line-height: 1rem
-        font-size: .43rem /* 32/75 */
-        text-align: center
-        color: #0076ff
-  .student-list
-    position: fixed
-    top: 2.66rem
-    bottom: 1.33rem
+  .time
+    box-sizing: border-box
     width: 100%
-    padding-bottom: 0.3rem
+    height: 1.07rem /* 80/75 */
+    padding: 0 .4rem /* 30/75 */
+    line-height: 1.07rem /* 80/75 */
+    font-size: .37rem /* 28/75 */
+    text-align: left
+    color: #666666
+    span
+      float: right
+  .chose
+    box-sizing: border-box
+    width: 100%
+    height: 1.6rem /* 120/75 */
+    padding: 0 .48rem /* 36/75 */ 0 .4rem /* 30/75 */
+    line-height: 1.6rem /* 120/75 */
+    font-size: .45rem /* 34/75 */
+    text-align: left
+    border-bottom: 1px solid #f5f5f5
+    background: #ffffff
+    color: #454545
+    span
+      float: right
+      font-size: .45rem /* 34/75 */
+      color: #C4C4C4
+      i
+        display: inline-block
+        width: .16rem /* 12/75 */
+        height: .29rem /* 22/75 */
+        margin-left: .13rem /* 10/75 */
+        background: url(../../assets/img/timetable/r-black.png) no-repeat
+        background-size: contain
 </style>

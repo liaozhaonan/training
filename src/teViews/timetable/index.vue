@@ -60,6 +60,7 @@ export default{
     next(vm => {
       vm.selectedDate = vm.$common.getFullDate()
       vm.getLessons()
+      vm.getGradeData()
     })
   },
   methods: {
@@ -87,6 +88,23 @@ export default{
     getNext () {
       this.selectedDate = this.$common.getFullDate(this.selectedDate, 1)
       this.getLessons()
+    },
+    getGradeData () {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=teacher_class_list', {
+        key: this.$store.state.user.key
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        let gradeData = []
+        for (let i = 0; i < res.length; i++) {
+          let grade = { 'text': res[i].grade_name, 'value': res[i].grade_id }
+          gradeData.push(grade)
+        }
+        this.$store.commit('setGradeData', gradeData)
+      })
     }
   }
 }

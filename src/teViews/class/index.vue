@@ -9,7 +9,7 @@
         <div class="list">
           <router-link class="item" :to="{ name: 'te-class-setting' }">
             <i class="lesson-setting"></i>
-            <p>课程设置</p>
+            <p>课外课程</p>
           </router-link>
           <router-link  class="item" :to="{ name: 'te-class-roll' }">
             <i class="student-roll"></i>
@@ -23,10 +23,10 @@
             <i class="mark"></i>
             <p>考核成绩</p>
           </router-link>
-          <router-link  class="item" :to="{ name: 'te-class-recruit', params: {} }">
+          <!-- <router-link  class="item" :to="{ name: 'te-class-recruit', params: {} }">
             <i class="recruit"></i>
             <p>招生管理&nbsp;</p>
-          </router-link>
+          </router-link> -->
         </div>
       </cube-scroll>
     </div>
@@ -66,7 +66,9 @@ export default{
       &:active
         color: #0050ff
   .common-scroll-wrapper
+    background: #f2f2f2
     .list
+      margin-top: .13rem /* 10/75 */
       width: 100%
       display: flex
       flex-wrap: wrap

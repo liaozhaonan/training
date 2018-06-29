@@ -3,7 +3,6 @@
     <top-nav>
       <div class="left"><router-link class="back" :to="{ name: 'te-class' }"><i></i></router-link></div>
       <div class="title"><p>课程设置</p></div>
-      <div class="sign-in"><router-link :to="{ name: '', params: {} }">现场签到</router-link></div>
     </top-nav>
     <div class="common-scroll-wrapper">
       <cube-scroll>
