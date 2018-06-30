@@ -2,11 +2,10 @@
   <div>
     <top-nav>
       <div class="left" name="left">
-        <router-link class="back" :to="{ name: 'timetable' }"><i></i></router-link>
+        <a class="back" @click="$router.go(-1)"><i></i></a>
       </div>
-      <div class="title"><p>考试记录</p></div>
+      <div class="title"><p>{{ headText }}考试成绩进退情况</p></div>
     </top-nav>
-    <h5>数学科成绩进退情况</h5>
     <div id="compare-chart"></div>
   </div>
 </template>
@@ -16,11 +15,13 @@ import topNav from '@/components/topNav/topNav'
 export default{
   data () {
     return {
-
+      headText: '科目'
     }
   },
-  mounted () {
-    this.getChart()
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getChart()
+    })
   },
   components: {
     topNav
@@ -61,8 +62,8 @@ export default{
     background: #ffffff
   #compare-chart
     width: 70%
-    height: 7.5rem /* 600/75 */
-    margin-top: .21rem /* 16/75 */
+    height: 9.33rem /* 700/75 */
+    margin-top: .27rem /* 20/75 */
     padding: 0 15%
     background: #ffffff
 </style>

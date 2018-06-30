@@ -4,7 +4,7 @@
       <div class="left" name="left">
         <router-link class="back" :to="{ name: 'te-class' }"><i></i></router-link>
       </div>
-      <div class="title"><p>班级考勤</p></div>
+      <div class="title"><p>考勤情况</p></div>
     </top-nav>
     <p class="time">班级考勤<span>{{ $common.getFullDate() }}</span></p>
     <p class="chose">年级<span @click="showGradePicker">{{ selectedGrade.text }}<i></i></span></p>

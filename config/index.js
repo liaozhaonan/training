@@ -15,7 +15,7 @@ module.exports = {
         target: 'http://kelin.intexh.com',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '/api': ''
         }
       }
     },
@@ -58,7 +58,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

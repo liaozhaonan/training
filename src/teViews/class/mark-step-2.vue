@@ -6,48 +6,32 @@
       </div>
       <div class="title"><p>考核成绩</p></div>
     </top-nav>
-    <p class="tip">填写成绩</p>
-    <p class="chose">选择课程<span @click="showLessonPicker">{{ selectedLesson.text }}<i></i></span></p>
-    <p class="chose">选择考试记录<span @click="showRecordPicker">{{ selectedRecord.text }}<i></i></span></p>
-    <router-link :to="{ name: 'te-class-mark-step-3', params: { } }">
-      <div class="btn">
-        <cube-button :disabled="btnDisable">下一步</cube-button>
-      </div>
+    <p class="tip">第2步: 选择课程,考试类型</p>
+    <p class="chose">选择课程<span @click="showLessonPicker">{{ selectedCourse.text }}<i></i></span></p>
+    <p class="chose">选择考试类型<span @click="showRecordPicker">{{ selectedRecord.text }}<i></i></span></p>
+    <router-link :to="{ name: 'te-class-mark-step-3', params: {classId: $route.params.classId, type: selectedRecord.value } }">
     </router-link>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="tipPopup" />
   </div>
 </template>
 
 <script>
 import topNav from '@/components/topNav/topNav'
 
-const lessonData = [
-  {
-    text: '产品课', value: '1'
-  },
-  {
-    text: '设计课', value: '2'
-  },
-  {
-    text: '美术课', value: '3'
-  }
-]
-
 const recordData = [
   {
-    text: '第3周', value: '1'
+    text: '期中考', value: '1'
   },
   {
-    text: '第6周', value: '2'
-  },
-  {
-    text: '第9周', value: '3'
+    text: '期末考', value: '2'
   }
 ]
 
 export default{
   data () {
     return {
-      selectedLesson: {
+      courseData: [],
+      selectedCourse: {
         text: '请选择',
         value: 0
       },
@@ -55,7 +39,7 @@ export default{
         text: '请选择',
         value: 0
       },
-      btnDisable: true
+      errorTip: ''
     }
   },
   computed: {
@@ -64,18 +48,20 @@ export default{
   components: {
     topNav
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getCourseData()
+    })
+  },
   methods: {
     showLessonPicker () {
       if (!this.lessonPicker) {
         this.lessonPicker = this.$createPicker({
-          title: '选择班级',
-          data: [lessonData],
+          title: '选择课程',
+          data: [this.courseData],
           onSelect: (selectedVal, selectedIndex, selectedText) => {
-            this.selectedLesson.text = selectedText[0]
-            this.selectedLesson.value = selectedVal[0]
-            if (this.selectedRecord.value > 0) {
-              this.btnDisable = false
-            }
+            this.selectedCourse.text = selectedText[0]
+            this.selectedCourse.value = selectedVal[0]
           }
         })
       }
@@ -84,18 +70,42 @@ export default{
     showRecordPicker () {
       if (!this.recordPicker) {
         this.recordPicker = this.$createPicker({
-          title: '选择班级',
+          title: '选择考试类型',
           data: [recordData],
           onSelect: (selectedVal, selectedIndex, selectedText) => {
             this.selectedRecord.text = selectedText[0]
             this.selectedRecord.value = selectedVal[0]
-            if (this.selectedLesson.value > 0) {
-              this.btnDisable = false
+            if (this.selectedCourse.value && this.selectedRecord.value) {
+              setTimeout(() => {
+                this.$router.push({
+                  name: 'te-class-mark-step-3',
+                  params: {classId: this.$route.params.classId, type: this.selectedRecord.value},
+                  query: {course: this.selectedCourse.text}
+                })
+              }, 1500)
             }
           }
         })
       }
       this.recordPicker.show()
+    },
+    getCourseData (gradeId) {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=course_list', {
+        key: this.$store.state.user.key,
+        class_id: this.$route.params.classId
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        let courseData = []
+        for (let i = 0; i < res.length; i++) {
+          let cls = { text: res[i].goods_name, value: `${i}` }
+          courseData.push(cls)
+        }
+        this.courseData = courseData
+      })
     }
   }
 }

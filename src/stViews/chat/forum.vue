@@ -2,14 +2,14 @@
   <div>
     <top-nav>
       <div class="left">
-        <router-link class="back" :to="{ name: 'te-chat' }"><i></i></router-link>
+        <router-link class="back" :to="{ name: 'chat' }"><i></i></router-link>
       </div>
       <div class="title"><p>{{ $route.query.forum }}</p></div>
-      <router-link class="start" :to="{ name: 'te-chat-forum-post-creating', params: {id: $route.params.id} }">发帖</router-link>
+      <router-link class="start" :to="{ name: 'chat-forum-post-creating', params: {id: $route.params.id} }">发帖</router-link>
     </top-nav>
     <div class="common-scroll-wrapper">
       <cube-scroll>
-        <router-link  v-for="post in postList" :to="{ name: 'te-chat-forum-post-detail', params: {id:post.id}, query: {forum: $route.query.forum} }" :key="post.id">
+        <router-link  v-for="post in postList" :to="{ name: 'chat-forum-post-detail', params: {id:post.id}, query: {forum: $route.query.forum} }" :key="post.id">
           <div class="item">
             <h5>{{ post.title }}</h5>
             <p class="content">

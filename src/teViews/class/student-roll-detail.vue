@@ -46,22 +46,7 @@ export default{
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.$http.post('/api/mobile/index.php?act=member_index&op=student_list', {
-        key: vm.$store.state.user.key,
-        class_id: to.params.classId
-      }).then((res) => {
-        if (res.error) {
-          vm.errorTip = res.error
-          vm.$common.showPopup(vm.$refs.errPopup)
-          return
-        }
-        let studentList = []
-        for (let i = 0; i < res.length; i++) {
-          studentList.push({name: res.member_name, value: i})
-        }
-        vm.studentData = vm.$common.formatDocs(studentList)
-        vm.studentData.unshift({name:'', items: []})
-      })
+      vm.getRoll()
     })
   },
   methods: {
@@ -71,6 +56,24 @@ export default{
     },
     clickTitle (title) {
       console.log(title)
+    },
+    getRoll () {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=student_list', {
+        key: this.$store.state.user.key,
+        class_id: this.$route.params.classId
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        let studentList = []
+        for (let i = 0; i < res.length; i++) {
+          studentList.push({name: res.member_name, value: i})
+        }
+        this.studentData = this.$common.formatDocs(studentList)
+        this.studentData.unshift({name: '', items: []})
+      })
     }
   }
 }

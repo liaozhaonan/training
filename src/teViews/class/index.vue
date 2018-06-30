@@ -17,7 +17,7 @@
           </router-link>
           <router-link  class="item" :to="{ name: 'te-class-attendance', params: {} }">
             <i class="attendance"></i>
-            <p>班级考勤</p>
+            <p>考勤情况</p>
           </router-link>
           <router-link  class="item" :to="{ name: 'te-class-mark-step-1', params: {} }">
             <i class="mark"></i>

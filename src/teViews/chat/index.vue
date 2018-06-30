@@ -2,11 +2,12 @@
   <div>
     <div class="top">
       <label>
-        <span class="group" :class="{'active': showTab === 1}" @click="switchSide(1)">我的班级</span><span class="forum" :class="{'active': showTab === 2}" @click="switchSide(2)">学校论坛</span>
+        <span class="group" :class="{'active': showTab === 1}" @click="switchSide(1)">班级群聊</span><span class="forum" :class="{'active': showTab === 2}" @click="switchSide(2)">学校论坛</span>
       </label>
     </div>
     <div class="list">
       <cube-scroll v-show="showTab === 1" id="groupPane">
+        <div class="item" v-if="!groupList.length" style="text-align: center; background: #f2f2f2"><span>暂无群聊信息</span></div>
         <router-link v-for="item in groupList" :to="{ name: '', params: {} }" :key="item.id" >
           <div class="item">
             <p>{{ item.class_name }}<span class="right">{{ item.date }}</span></p>
@@ -45,31 +46,8 @@ export default{
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.$http.post('/api/mobile/index.php?act=member_index&op=notice_homework_list', {
-        key: vm.$store.state.user.key,
-        type: 1
-      }).then((res) => {
-        if (res.error) {
-          vm.errorTip = res.error
-          vm.$common.showPopup(vm.$refs.errPopup)
-          return
-        }
-        for (let i = 0; i < res.length; i++) {
-          res[i].date = vm.$common.getFullDate(res[i].date * 1000)
-        }
-        vm.groupList = res
-      })
-
-      vm.$http.post('/api/mobile/index.php?act=forum&op=forum_list', {
-        key: vm.$store.state.user.key
-      }).then((res) => {
-        if (res.error) {
-          vm.errorTip = res.error
-          vm.$common.showPopup(vm.$refs.errPopup)
-          return
-        }
-        vm.forumList = res
-      })
+      vm.getGroupList()
+      vm.getForumList()
     })
   },
   methods: {
@@ -77,21 +55,22 @@ export default{
       this.showTab = tab
     },
     getGroupList () {
-      this.$http.post('/api/mobile/index.php?act=forum&op=forum_list', {
-        key: this.$store.state.user.key
-      }).then((res) => {
-        if (res.error) {
-          this.errorTip = res.error
-          this.$common.showPopup(this.$refs.errPopup)
-          return
-        }
-        // 转换所获取到的列表项的date的格式
-        for (let i = 0; i < res.length; i++) {
-          res[i].date = this.$common.getFullDate(res[i].date * 1000)
-        }
-        // 异步请求成功后更新显示列表,并将请求结果存入相应类别的列表, 以便下次切换时能够实时替换为显示列表
-        this.groupList = res
-      })
+      console.log('敬请期待')
+      // this.$http.post('/api', {
+      //   key: this.$store.state.user.key
+      // }).then((res) => {
+      //   if (res.error) {
+      //     this.errorTip = res.error
+      //     this.$common.showPopup(this.$refs.errPopup)
+      //     return
+      //   }
+      //   // 转换所获取到的列表项的date的格式
+      //   for (let i = 0; i < res.length; i++) {
+      //     res[i].date = this.$common.getFullDate(res[i].date * 1000)
+      //   }
+      //   // 异步请求成功后更新显示列表,并将请求结果存入相应类别的列表, 以便下次切换时能够实时替换为显示列表
+      //   this.groupList = res
+      // })
     },
     getForumList () {
       this.$http.post('/api/mobile/index.php?act=forum&op=forum_list', {

@@ -115,9 +115,25 @@ export default{
     topNav,
     stFootNav
   },
-  mounted () {
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getList(1)
+    })
   },
   methods: {
+    getList (tab) {
+      this.$http.post('/api/mobile/index.php?act=extracurricular&op=extracurricular_list', {
+        key: this.$store.state.user.key,
+        class_id: 1
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        console.log(res)
+      })
+    },
     showCities () {
       document.getElementsByClassName('chose-city')[0].style.top = 0
     },

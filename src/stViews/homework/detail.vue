@@ -4,7 +4,7 @@
       <div class="left" name="left">
         <a class="back" @click="$router.go(-1)"><i></i></a>
       </div>
-      <div class="title"><p>作业详情</p></div>
+      <div class="title"><p>{{ headText }}</p></div>
     </top-nav>
     <div class="scroll-wrapper">
       <cube-scroll>

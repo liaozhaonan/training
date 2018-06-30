@@ -2,9 +2,9 @@
   <div>
     <top-nav>
       <div class="left" name="left">
-        <router-link class="back" :to="{ name: 'timetable' }"><i></i></router-link>
+        <a class="back" @click="$router.go(-1)"><i></i></a>
       </div>
-      <div class="title"><p>考试成绩</p></div>
+      <div class="title"><p>{{ headText }}</p></div>
     </top-nav>
     <div class="scroll-wrapper">
       <cube-scroll>
@@ -16,10 +16,12 @@
           </p>
         </div>
         <div class="subjects">
-          <p>
-            <label class="left"><span class="name">语文</span><span class="value">78</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">80</span><i></i></label>
-          </p>
+          <router-link :to="{ name: 'examine-compare', params: {t: testData} }">
+            <p>
+              <label class="left"><span class="name">语文</span><span class="value">78</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">80</span><i></i></label>
+            </p>
+          </router-link>
           <p>
             <label class="left"><span class="name">数学</span><span class="value">86</span></label>
             <label class="right"><span class="name">班级平均分</span><span class="value">86</span><i></i></label>
@@ -55,11 +57,18 @@ import topNav from '@/components/topNav/topNav'
 export default{
   data () {
     return {
-
+      headText: '',
+      testData: {name: '语文', value: 85}
     }
   },
-  mounted () {
-    this.getChart()
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.headText = vm.$route.params.type === '1' ? '期中考试' : '期末考试'
+      vm.getChart()
+    })
+  },
+  conputed: {
+
   },
   components: {
     topNav

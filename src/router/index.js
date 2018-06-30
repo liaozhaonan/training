@@ -19,11 +19,16 @@ import selectIndex from '../stViews/select/index'
 import selectSubject from '../stViews/select/subject'
 import selectDetail from '../stViews/select/detail'
 import chat from '../stViews/chat/index'
-import setting from '../stViews/setting/index'
+import chatForum from '../stViews/chat/forum'
+import chatForumPostCreating from '../stViews/chat/post-creating'
+import chatForumPostDetail from '../stViews/chat/post-detail'
+import settings from '../stViews/settings/index'
+import settingsChange from '../stViews/settings/change'
 /* 老师 */
 import teTimetable from '../teViews/timetable/index'
 import teLessonDetail from '../teViews/timetable/lesson-detail'
 import teLessonPlan from '../teViews/timetable/lesson-plan'
+import teLessonCode from '../teViews/timetable/lesson-code'
 import teHomework from '../teViews/homework/index'
 import teHomeworkDetail from '../teViews/homework/detail'
 import teHomeworkPublish from '../teViews/homework/publish'
@@ -46,14 +51,15 @@ import teChatForum from '../teViews/chat/forum'
 import teChatForumPostCreating from '../teViews/chat/post-creating'
 import teChatForumPostDetail from '../teViews/chat/post-detail'
 import teSettings from '../teViews/settings/index'
-import teSettingsChange from '../teViews/settings/change'
+import teSettingsChangeInfo from '../teViews/settings/change-info'
+import teSettingsChangeMobile from '../teViews/settings/bind-mobile'
 
 Vue.use(Router)
 
 /* 登录 */
 const loginRouters = [
   {
-    path: '/login',
+    path: '/',
     name: 'login',
     component: login
   }
@@ -62,7 +68,7 @@ const loginRouters = [
 /* 学生 */
 const stRouters = [
   {
-    path: '/',
+    path: '/student',
     name: 'timetable',
     component: timetable
   },
@@ -82,12 +88,12 @@ const stRouters = [
     component: signRecord
   },
   {
-    path: '/examine/type',
+    path: '/examine/type/:year/:term',
     name: 'examine-type',
     component: examineType
   },
   {
-    path: '/examine/detail',
+    path: '/examine/detail/:year/:term/:type',
     name: 'examine-detail',
     component: examineDetail
   },
@@ -112,13 +118,13 @@ const stRouters = [
     component: homework
   },
   {
-    path: '/homework/detail',
+    path: '/homework/:type/:id/detail',
     name: 'homework-detail',
     component: homeworkDetail
   },
   {
     path: '/select',
-    name: 'select-index',
+    name: 'select',
     component: selectIndex
   },
   {
@@ -137,9 +143,29 @@ const stRouters = [
     component: chat
   },
   {
-    path: '/setting',
-    name: 'setting',
-    component: setting
+    path: '/chat/forum/:id',
+    name: 'chat-forum',
+    component: chatForum
+  },
+  {
+    path: '/chat/forum/:id/post/creating',
+    name: 'chat-forum-post-creating',
+    component: chatForumPostCreating
+  },
+  {
+    path: '/chat/forum/post/:id/detail',
+    name: 'chat-forum-post-detail',
+    component: chatForumPostDetail
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: settings
+  },
+  {
+    path: '/settings/:type/change',
+    name: 'settings-change',
+    component: settingsChange
   }
 ]
 
@@ -156,6 +182,11 @@ const teRouters = [
     component: teLessonDetail
   },
   {
+    path: '/te-lesson/:id/:classId/code',
+    name: 'te-lesson-code',
+    component: teLessonCode
+  },
+  {
     path: '/te-lesson/plan/:id',
     name: 'te-lesson-plan',
     component: teLessonPlan
@@ -166,7 +197,7 @@ const teRouters = [
     component: teHomework
   },
   {
-    path: '/te-homework/detail/:type/:id',
+    path: '/te-homework/:type/:id/detail',
     name: 'te-homework-detail',
     component: teHomeworkDetail
   },
@@ -211,12 +242,12 @@ const teRouters = [
     component: teClassMark1
   },
   {
-    path: '/te-class/mark/step-2',
+    path: '/te-class/mark/step-2/:classId',
     name: 'te-class-mark-step-2',
     component: teClassMark2
   },
   {
-    path: '/te-class/mark/step-3',
+    path: '/te-class/mark/step-3/:classId/:type',
     name: 'te-class-mark-step-3',
     component: teClassMark3
   },
@@ -271,14 +302,20 @@ const teRouters = [
     component: teSettings
   },
   {
-    path: '/te-settings/change',
-    name: 'te-settings-change',
-    component: teSettingsChange
+    path: '/te-settings/change-info',
+    name: 'te-settings-change-info',
+    component: teSettingsChangeInfo
+  },
+  {
+    path: '/te-settings/change-mobile',
+    name: 'te-settings-change-mobile',
+    component: teSettingsChangeMobile
   }
 ]
 
 export default new Router({
   mode: 'history',
+  base: '/app/',
   routes: [
     ...loginRouters,
     ...stRouters,

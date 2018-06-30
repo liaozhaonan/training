@@ -6,25 +6,28 @@
     <div class="common-scroll-wrapper">
       <cube-scroll>
         <div class="list">
-          <!-- <router-link :to="{ name: 'te-settings-change-info', params: {type: 'username'}, query: {content: $store.state.user.username} }"> -->
+          <router-link :to="{ name: 'settings-change', params: {type: 'username'}, query: {content: $store.state.user.username} }">
             <p>用户名<span>{{ $store.state.user.username }}</span></p>
-          <!-- </router-link> -->
-          <router-link :to="{ name: 'te-settings-change-info', query: {type: 'member_truename', content: $store.state.user.member_truename || '未填写'} }">
-            <p>真实姓名<span>{{ $store.state.user.member_truename || $route.query.member_truename || '未填写' }}</span></p>
           </router-link>
-          <router-link :to="{ name: 'te-settings-change-mobile',  query: {content: $store.state.user.mobile || $route.query.mobile || '未填写'} }">
+          <router-link :to="{ name: 'settings-change', query: {type: 'member_truename', content: $store.state.user.member_truename || '未填写'} }">
+            <p>真实姓名<span>{{ $store.state.user.member_truename || '未填写' }}</span></p>
+          </router-link>
+          <router-link :to="{ name: 'settings-change', params: {type: 'username'}, query: {content: $store.state.user.genearch_name || '未填写'} }">
+            <p>监护人姓名<span>{{ $store.state.user.genearch_name || '未填写' }}</span></p>
+          </router-link>
+          <!-- <router-link :to="{ name: 'settings-change', params: {type: 'username'}, query: {content: $store.state.user.mobile || '未填写'} }"> -->
             <p>手机号<span>{{ $store.state.user.mobile  || '无' }}</span></p>
-          </router-link>
+          <!-- </router-link> -->
         </div>
       </cube-scroll>
     </div>
-    <te-foot-nav :footItem="footItem"></te-foot-nav>
+    <st-foot-nav :footItem="footItem"></st-foot-nav>
   </div>
 </template>
 
 <script>
 import topNav from '@/components/topNav/topNav'
-import teFootNav from '@/components/te/footNav/footNav'
+import stFootNav from '@/components/st/footNav/footNav'
 import '@/assets/styl/header-plus.styl'
 export default{
   data () {
@@ -34,7 +37,7 @@ export default{
   },
   components: {
     topNav,
-    teFootNav
+    stFootNav
   },
   methods: {
 

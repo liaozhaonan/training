@@ -32,17 +32,22 @@ export default{
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.$http.post('/api/mobile/index.php?act=member_index&op=teacher_class_list', {
-        key: vm.$store.state.user.key
+      console.log('beforeRouteEnter')
+    })
+  },
+  methods: {
+    submit () {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=teacher_class_list', {
+        key: this.$store.state.user.key
       }).then((res) => {
         if (res.error) {
-          vm.errorTip = res.error
-          vm.$common.showPopup(vm.$refs.errPopup)
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
           return
         }
         console.log(res)
       })
-    })
+    }
   }
 }
 </script>

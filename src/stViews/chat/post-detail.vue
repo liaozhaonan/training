@@ -80,7 +80,7 @@ export default{
           this.$common.showPopup(this.$refs.errPopup)
           return
         }
-        this.comments = res
+        this.comments = res.reverse()
       })
     },
     reply () {

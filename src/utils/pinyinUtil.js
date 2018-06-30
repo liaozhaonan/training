@@ -1,4 +1,4 @@
-﻿
+/* eslint-disable */﻿
 /**
  * 汉字与拼音互转工具，根据导入的字典文件的不同支持不同
  * 对于多音字目前只是将所有可能的组合输出，准确识别多音字需要完善的词库，而词库文件往往比字库还要大，所以不太适合web环境。
@@ -13,7 +13,7 @@
 	}
 })(typeof window !== "undefined" ? window : this, function(window) {
 
-	var toneMap = 
+	var toneMap =
 	{
 		"ā": "a1",
 		"á": "a2",
@@ -137,7 +137,7 @@
 						if(!withtone) pinyin = this.removeTone(pinyin); // 如果不需要声调
 						//空格，把noChinese作为一个词插入
 						noChinese && ( result.push( noChinese), noChinese = '' );
-						result.push( pinyin ); 
+						result.push( pinyin );
 					}
 					else if ( !chinese[i] || /^ +$/g.test(chinese[i]) ){
 						//空格，把noChinese作为一个词插入

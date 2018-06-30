@@ -6,7 +6,7 @@
       </div>
       <div class="title"><p>课程详情</p></div>
     </top-nav>
-    <h5>语文</h5>
+    <h5>{{ lesson.goods_name }}</h5>
     <div class="info">
       <p><i class="person"></i><span>任课老师</span><span class="right">{{ lesson.store_name }}</span></p>
       <p><i class="note"></i><span>通知</span><span class="right">一条最新消息</span></p>
@@ -54,7 +54,6 @@ export default{
     padding-left: 5%
     line-height: 1.17rem /* 88/75 */
     font-size: .48rem /* 36/75 */
-    text-align: left
     color: #030303
     background: #ffffff
   .info

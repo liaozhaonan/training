@@ -2,10 +2,11 @@
   <div>
     <top-nav id="first">
       <div class="left">
-        <router-link class="back" :to="{ name: 'examine' }"><i class="examine"></i></router-link>
+        <router-link class="back" :to="{ name: 'examine-type', params: {year: school_year_id, term: term} }"><i class="examine"></i></router-link>
       </div>
       <div class="title"><p>课表主页</p></div>
-      <div class="right"><router-link class="forward"  :to="{ name: 'sign' }"><i class="scan"></i></router-link></div>
+      <!-- <div class="right"><router-link class="forward"  :to="{ name: 'sign' }"><i class="scan"></i></router-link></div> -->
+      <div class="right"><router-link class="forward"  :to="{ name: 'sign-record' }"><i class="scan"></i></router-link></div>
     </top-nav>
     <top-nav id="second">
       <div class="left">
@@ -48,11 +49,13 @@ import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
-      footItem: 1,
+      school_year_id: 0,
+      term: 0,
       selectedDate: '',
       amList: [],
       pmList: [],
-      errorTip: ''
+      errorTip: '',
+      footItem: 1
     }
   },
   components: {
@@ -79,6 +82,10 @@ export default{
           this.$common.showPopup(this.$refs.errPopup)
           return
         }
+        if (res.length) {
+          this.school_year_id = res[0].school_year_id
+          this.term = res[0].term === '上学期' ? 1 : 2
+        }
         for (let i = 0; i < res.length; i++) {
           res[i].sort < 5 ? this.amList.push(res[i]) : this.pmList.push(res[i])
         }
@@ -104,7 +111,9 @@ export default{
       width: .59rem /* 44/75 */
       height: .59rem /* 44/75 */
     i.scan
-      background: url(../../assets/img/timetable/scan.png) no-repeat
+      // background: url(../../assets/img/timetable/scan.png) no-repeat
+      background: url(../../assets/img/timetable/record.png)
+      transform: rotate(0deg)
       background-size: contain
       width: .59rem /* 44/75 */
       height: .59rem /* 44/75 */

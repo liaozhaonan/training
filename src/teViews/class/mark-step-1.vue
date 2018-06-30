@@ -2,43 +2,33 @@
   <div>
     <top-nav>
       <div class="left" name="left">
-        <router-link class="back" :to="{ name: 'te-class-attendance' }"><i></i></router-link>
+        <router-link class="back" :to="{ name: 'te-class' }"><i></i></router-link>
       </div>
       <div class="title"><p>考核成绩</p></div>
     </top-nav>
-    <p class="tip">发布成绩</p>
-    <p class="chose">班级<span @click="showClassPicker">{{ selectedClass.text }}<i></i></span></p>
-    <router-link :to="{ name: 'te-class-mark-step-2', params: { } }">
-      <div class="btn">
-        <cube-button :disabled="btnDisable">下一步</cube-button>
-      </div>
-    </router-link>
+    <p class="tip">第1步: 选择年级,班别</p>
+    <p class="chose">年级<span @click="showGradePicker">{{ selectedGrade.text }}<i></i></span></p>
+    <p class="chose">班别<span @click="showClassPicker">{{ selectedClass.text }}<i></i></span></p>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="tipPopup" />
   </div>
 </template>
 
 <script>
 import topNav from '@/components/topNav/topNav'
 
-const classData = [
-  {
-    text: '产品1班', value: '1'
-  },
-  {
-    text: '产品2班', value: '2'
-  },
-  {
-    text: '产品3班', value: '3'
-  }
-]
-
 export default{
   data () {
     return {
+      classData: [],
+      selectedGrade: {
+        text: '请选择',
+        value: ''
+      },
       selectedClass: {
         text: '请选择',
-        value: 0
+        value: ''
       },
-      btnDisable: true
+      errorTip: ''
     }
   },
   computed: {
@@ -48,19 +38,55 @@ export default{
     topNav
   },
   methods: {
+    showGradePicker () {
+      if (!this.gradePicker) {
+        this.gradePicker = this.$createPicker({
+          title: '选择年级',
+          data: [this.$store.state.gradeData],
+          onSelect: (selectedVal, selectedIndex, selectedText) => {
+            this.selectedGrade.text = selectedText[0]
+            this.selectedGrade.value = selectedVal[0]
+            this.getClassData(this.selectedGrade.value)
+          }
+        })
+      }
+      this.gradePicker.show()
+    },
     showClassPicker () {
       if (!this.classPicker) {
         this.classPicker = this.$createPicker({
-          title: '选择班级',
-          data: [classData],
+          title: '选择班别',
+          data: [this.classData],
           onSelect: (selectedVal, selectedIndex, selectedText) => {
             this.selectedClass.text = selectedText[0]
             this.selectedClass.value = selectedVal[0]
-            this.btnDisable = false
+            if (this.selectedGrade.value && this.selectedClass.value) {
+              setTimeout(() => {
+                this.$router.push({name: 'te-class-mark-step-2', params: { classId: this.selectedClass.value }})
+              }, 1500)
+            }
           }
         })
       }
       this.classPicker.show()
+    },
+    getClassData (gradeId) {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=teacher_class_list', {
+        key: this.$store.state.user.key,
+        id: gradeId
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        let classData = []
+        for (let i = 0; i < res.length; i++) {
+          let cls = { text: res[i].name, value: res[i].id }
+          classData.push(cls)
+        }
+        this.classData = classData
+      })
     }
   }
 }
@@ -100,9 +126,4 @@ export default{
         margin-left: .13rem /* 10/75 */
         background: url(../../assets/img/timetable/r-black.png) no-repeat
         background-size: contain
-  .btn
-    width: 6.4rem /* 480/75 */
-    margin: 1rem auto
-    border-radius: .4rem /* 30/75 */
-    overflow: hidden
 </style>

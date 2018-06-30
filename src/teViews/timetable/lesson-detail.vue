@@ -18,7 +18,11 @@
       <!-- <p><i class="point"></i><span>学分</span><span class="right">4.0</span></p> -->
     </div>
     <div class="btn">
-      <span><cube-button>考勤</cube-button></span>
+      <span>
+        <router-link :to="{ name: 'te-lesson-code', params: {id: $route.params.id, classId: class_id} }">
+          <cube-button>考勤</cube-button>
+        </router-link>
+      </span>
       <span>
         <router-link :to="{ name: 'te-homework-publish', params: {date: $route.params.date, type: 1, lessonId: lesson_id, classId: class_id} }">
           <cube-button>发布通知</cube-button>

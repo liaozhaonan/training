@@ -2,20 +2,24 @@
   <div>
     <top-nav>
       <div class="left" name="left">
-        <router-link class="back" :to="{ name: 'timetable' }"><i></i></router-link>
+        <a class="back" @click="$router.go(-1)"><i></i></a>
       </div>
       <div class="title"><p>考试成绩</p></div>
     </top-nav>
-    <h5>2017-2018学年成绩</h5>
+    <h5>{{ bannerText }}</h5>
     <div class="types">
-      <div>
-        <i class="middle"></i>
-        <p>期中</p>
-      </div>
-      <div>
-        <i class="final"></i>
-        <p>期末</p>
-      </div>
+      <router-link :to="{ name: 'examine-detail', params: { year: $route.params.year, term: $route.params.term, type: '1' } }">
+        <div>
+          <i class="middle"></i>
+          <p>期中</p>
+        </div>
+      </router-link>
+      <router-link :to="{ name: 'examine-detail', params: { year: '2017-2018', term: '2', type: '2' } }">
+        <div>
+          <i class="final"></i>
+          <p>期末</p>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -25,11 +29,25 @@ import topNav from '@/components/topNav/topNav'
 export default{
   data () {
     return {
-
+      bannerText: ''
     }
   },
   components: {
     topNav
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getBannerText()
+    })
+  },
+  methods: {
+    getBannerText () {
+      let year = this.$route.params.year
+      let yearFrom = 2018 + Number.parseInt(year) - 1
+      let yearTo = 2018 + Number.parseInt(year)
+      let term = Number.parseInt(this.$route.params.term) === 1 ? '上学期' : '下学期'
+      this.bannerText = `${yearFrom}-${yearTo}学年${term}成绩`
+    }
   }
 }
 </script>
@@ -47,7 +65,7 @@ export default{
     box-sizing: border-box
     width: 100%
     padding: .4rem /* 30/75 */ 0 .4rem .4rem
-    & > div
+    div
       display: inline-block
       box-sizing: border-box
       width: calc((100% - 1.2rem /* 90/75 */) / 2)
