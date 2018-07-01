@@ -116,11 +116,13 @@ export default{
       padding: .27rem /* 20/75 */ .4rem /* 30/75 */ .53rem /* 40/75 */
       & > h5
         font-size: .48rem /* 36/75 */
-        line-height: 1.07rem /* 80/75 */
+        line-height: .8rem /* 60/75 */
+        padding: .13rem /* 10/75 */ 0 .27rem /* 20/75 */
         text-align: center
         color: #303030
       .tag
         width: 100%
+        padding-bottom: .27rem /* 20/75 */
         font-size: .37rem /* 28/75 */
         line-height: .43rem /* 32/75 */
         color: #9f9f9f
@@ -131,7 +133,7 @@ export default{
         width: 100%
         margin: .27rem /* 20/75 */ 0
         line-height: .73rem /* 55/75 */
-        font-size: .43rem /* 32/75 */
+        font-size: .37rem /* 28/75 */
         text-align: left
         text-indent: .88rem /* 66/75 */
         text-overflow: ellipsis
@@ -172,7 +174,7 @@ export default{
       border-bottom: 1px solid #f2f2f2
       p
         text-align: left
-        font-size: .43rem /* 32/75 */
+        font-size: .37rem /* 28/75 */
         line-height: .67rem /* 50/75 */
         color: #666666
         &.tag

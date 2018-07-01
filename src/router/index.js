@@ -23,7 +23,8 @@ import chatForum from '../stViews/chat/forum'
 import chatForumPostCreating from '../stViews/chat/post-creating'
 import chatForumPostDetail from '../stViews/chat/post-detail'
 import settings from '../stViews/settings/index'
-import settingsChange from '../stViews/settings/change'
+import settingsChangeInfo from '../stViews/settings/change-info'
+import settingsChangeMobile from '../stViews/settings/bind-mobile'
 /* 老师 */
 import teTimetable from '../teViews/timetable/index'
 import teLessonDetail from '../teViews/timetable/lesson-detail'
@@ -163,9 +164,14 @@ const stRouters = [
     component: settings
   },
   {
-    path: '/settings/:type/change',
-    name: 'settings-change',
-    component: settingsChange
+    path: '/settings/change-info',
+    name: 'settings-change-info',
+    component: settingsChangeInfo
+  },
+  {
+    path: '/settings/change-mobile',
+    name: 'settings-change-mobile',
+    component: settingsChangeMobile
   }
 ]
 
@@ -315,7 +321,7 @@ const teRouters = [
 
 export default new Router({
   mode: 'history',
-  base: '/app/',
+  // base: '/app/',
   routes: [
     ...loginRouters,
     ...stRouters,

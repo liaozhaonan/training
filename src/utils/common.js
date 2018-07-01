@@ -66,7 +66,7 @@ export default {
         start = start + name.length + 1 // 获取值的起点
         let end = document.cookie.indexOf(';', start) // 获取结尾处
         if (Number.parseInt(end) === -1) end = document.cookie.length // 如果是最后一个，结尾就是cookie字符串的结尾
-        return decodeURI(document.cookie.substring(start, end)) // 截取字符串返回
+        return unescape(document.cookie.substring(start, end)) // 截取字符串返回
       }
     }
     return ''

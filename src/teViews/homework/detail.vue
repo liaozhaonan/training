@@ -19,7 +19,6 @@
           <div class="detail">
             <p>{{ info.content }}</p>
             <img v-for="(p, index) in info.pic" :src="p" alt="" :key="index">
-            <p class="end">The end.</p>
           </div>
         </div>
       </cube-scroll>

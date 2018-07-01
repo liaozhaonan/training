@@ -44,10 +44,13 @@ export default{
         key: this.$store.state.user.key,
         member_truename: this.$route.query.type === 'member_truename' ? this.content : ''
       }).then((res) => {
-        this.errorTip = res.error ? res.error : '手机号绑定成功'
-        this.$common.showPopup(this.$refs.errPopup)
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
         setTimeout(() => {
-          this.$router.push({name: 'te-settings', query: {member_truename: this.content}})
+          this.$router.push({name: 'te-settings'})
         }, 1500)
       })
     }

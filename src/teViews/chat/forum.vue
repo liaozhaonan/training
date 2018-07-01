@@ -89,9 +89,9 @@ export default{
       .content
         display:-webkit-box
         -webkit-box-orient:vertical
-        -webkit-line-clamp:2
+        -webkit-line-clamp:3
         width: 100%
-        max-height: .96rem /* 72/75 */
+        max-height: 1.44rem /* 108/75 */
         font-size: .35rem /* 26/75 */
         line-height: .48rem /* 36/75 */
         margin: .27rem /* 20/75 */ 0

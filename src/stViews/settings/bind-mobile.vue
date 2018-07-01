@@ -2,7 +2,7 @@
   <div>
     <top-nav>
       <div class="left">
-        <router-link class="back" :to="{ name: 'te-settings' }"><i></i>绑定手机号</router-link>
+        <router-link class="back" :to="{ name: 'settings' }"><i></i>绑定手机号</router-link>
       </div>
     </top-nav>
     <div class="input-wrapper">
@@ -62,6 +62,7 @@ export default{
         key: this.$store.state.user.key,
         phone: this.content,
         auth_code: this.code
+
       }).then((res) => {
         if (res.error) {
           this.errorTip = res.error
@@ -69,7 +70,7 @@ export default{
           return
         }
         setTimeout(() => {
-          this.$router.go(-1)
+          this.$router.push({name: 'settings'})
         }, 1500)
       })
     }

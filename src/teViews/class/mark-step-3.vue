@@ -16,7 +16,7 @@
       </div>
       <router-link :to="{ name: 'te-class-mark-step-3', params: { } }">
         <div class="btn">
-          <cube-button :disabled="btnDisable" @click="submit()">下一步</cube-button>
+          <cube-button :disabled="btnDisable" @click="submit()">马上发布</cube-button>
         </div>
       </router-link>
     </div>

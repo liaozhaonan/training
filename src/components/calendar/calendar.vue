@@ -37,7 +37,7 @@ export default{
   props: ['changedDate', 'toggleCalendar'],
   data () {
     return {
-      showCalendar: true,
+      showCalendar: false,
       currentYear: 1970,
       currentMonth: 1,
       currentWeek: 1,
