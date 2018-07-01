@@ -7,16 +7,16 @@
       <cube-scroll>
         <div class="list">
           <!-- <router-link :to="{ name: 'settings-change-info', params: {type: 'username'}, query: {content: $store.state.user.username} }"> -->
-            <p>用户名<span>{{ $store.state.user.username }}</span></p>
+            <p>用户名<span>{{ info.member_name }}</span></p>
           <!-- </router-link> -->
-          <router-link :to="{ name: 'settings-change-info', query: {type: 'member_truename', content: $store.state.user.member_truename || '未填写'} }">
-            <p>真实姓名<span>{{ $store.state.user.member_truename || $route.query.member_truename || '未填写' }}</span></p>
+          <router-link :to="{ name: 'settings-change-info', query: {type: 'member_truename', content: info.member_truename } }">
+            <p>真实姓名<span>{{ info.member_truename }}</span></p>
           </router-link>
-          <router-link :to="{ name: 'settings-change-info', query: {type: 'genearch_name', content: $store.state.user.genearch_name || '未填写'} }">
-            <p>监护人姓名<span>{{ $store.state.user.genearch_name || $route.query.genearch_name || '未填写' }}</span></p>
+          <router-link :to="{ name: 'settings-change-info', query: {type: 'genearch_name', content: info.genearch_name} }">
+            <p>监护人姓名<span>{{ info.genearch_name }}</span></p>
           </router-link>
-          <router-link :to="{ name: 'settings-change-mobile',  query: {content: $store.state.user.mobile || $route.query.mobile || '未填写'} }">
-            <p>手机号<span>{{ $store.state.user.mobile  || '无' }}</span></p>
+          <router-link :to="{ name: 'settings-change-mobile',  query: {content: info.member_mobile } }">
+            <p>手机号<span>{{ info.member_mobile }}</span></p>
           </router-link>
         </div>
       </cube-scroll>
@@ -32,6 +32,7 @@ import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
+      info: {},
       footItem: 5
     }
   },
@@ -41,11 +42,26 @@ export default{
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      console.log('settings-index')
+      vm.getMemberInfo()
     })
   },
   methods: {
-
+    getMemberInfo () {
+      this.$http.post('/api/mobile/index.php?act=member_index&op=get_member_info', {
+        key: this.$store.state.user.key
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        if (!res.username) { res.username = '未提供' }
+        if (!res.member_truename) { res.member_truename = '未提供' }
+        if (!res.member_mobile) { res.member_mobile = '未提供' }
+        if (!res.genearch_name) { res.genearch_name = '未提供' }
+        this.info = res
+      })
+    }
   }
 }
 </script>

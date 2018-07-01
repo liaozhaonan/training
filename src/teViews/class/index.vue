@@ -15,10 +15,10 @@
             <i class="student-roll"></i>
             <p>学生名册&nbsp;&nbsp;</p>
           </router-link>
-          <router-link  class="item" :to="{ name: 'te-class-attendance', params: {} }">
+          <!-- <router-link  class="item" :to="{ name: 'te-class-attendance', params: {} }">
             <i class="attendance"></i>
             <p>考勤情况</p>
-          </router-link>
+          </router-link> -->
           <router-link  class="item" :to="{ name: 'te-class-mark-step-1', params: {} }">
             <i class="mark"></i>
             <p>考核成绩</p>

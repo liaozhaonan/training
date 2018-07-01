@@ -9,8 +9,8 @@
     <p class="tip">第2步: 选择课程,考试类型</p>
     <p class="chose">选择课程<span @click="showLessonPicker">{{ selectedCourse.text }}<i></i></span></p>
     <p class="chose">选择考试类型<span @click="showRecordPicker">{{ selectedRecord.text }}<i></i></span></p>
-    <router-link :to="{ name: 'te-class-mark-step-3', params: {classId: $route.params.classId, type: selectedRecord.value } }">
-    </router-link>
+    <!-- <router-link :to="{ name: 'te-class-mark-step-3', params: {classId: $route.params.classId, type: selectedRecord.value } }">
+    </router-link> -->
     <cube-popup class="tip" :mask="false" :content="errorTip" ref="tipPopup" />
   </div>
 </template>
@@ -79,7 +79,7 @@ export default{
               setTimeout(() => {
                 this.$router.push({
                   name: 'te-class-mark-step-3',
-                  params: {classId: this.$route.params.classId, type: this.selectedRecord.value},
+                  params: {classId: this.$route.params.classId, type: this.selectedRecord.value, year: this.$route.params.year},
                   query: {course: this.selectedCourse.text}
                 })
               }, 1500)

@@ -1,5 +1,34 @@
 import './pinyin_dict_firstletter'
 import './pinyinUtil'
+
+function setCookie (name, value, expiredays) {
+  var exdate = new Date()
+  exdate.setTime(Number(exdate) + expiredays)
+  document.cookie = name + '=' + escape(value) + ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
+}
+
+function getCookie (name) {
+  if (document.cookie.length > 0) {
+    let start = document.cookie.indexOf(name + '=') // 获取字符串的起点
+    if (start !== -1) {
+      start = start + name.length + 1 // 获取值的起点
+      let end = document.cookie.indexOf(';', start) // 获取结尾处
+      if (Number.parseInt(end) === -1) end = document.cookie.length // 如果是最后一个，结尾就是cookie字符串的结尾
+      return unescape(document.cookie.substring(start, end)) // 截取字符串返回
+    }
+  }
+  return ''
+}
+
+function delCookie (name) {
+  var exp = new Date()
+  exp.setTime(exp.getTime() - 1)
+  var cval = this.getCookie(name)
+  if (cval != null) {
+    document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString()
+  }
+}
+
 export default {
   showPopup (popupComponent) {
     const popup = popupComponent
@@ -54,29 +83,9 @@ export default {
     })
     return format
   },
-  setCookie (name, value, expiredays) {
-    var exdate = new Date()
-    exdate.setTime(Number(exdate) + expiredays)
-    document.cookie = name + '=' + escape(value) + ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
-  },
-  getCookie (name) {
-    if (document.cookie.length > 0) {
-      let start = document.cookie.indexOf(name + '=') // 获取字符串的起点
-      if (start !== -1) {
-        start = start + name.length + 1 // 获取值的起点
-        let end = document.cookie.indexOf(';', start) // 获取结尾处
-        if (Number.parseInt(end) === -1) end = document.cookie.length // 如果是最后一个，结尾就是cookie字符串的结尾
-        return unescape(document.cookie.substring(start, end)) // 截取字符串返回
-      }
-    }
-    return ''
-  },
-  delCookie (name) {
-    var exp = new Date()
-    exp.setTime(exp.getTime() - 1)
-    var cval = this.getCookie(name)
-    if (cval != null) {
-      document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString()
-    }
-  }
+  setCookie,
+  getCookie,
+  delCookie
 }
+
+export { setCookie, getCookie, delCookie }

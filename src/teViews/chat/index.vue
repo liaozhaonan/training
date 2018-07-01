@@ -2,7 +2,8 @@
   <div>
     <div class="top">
       <label>
-        <span class="group" :class="{'active': showTab === 1}" @click="switchSide(1)">班级群聊</span><span class="forum" :class="{'active': showTab === 2}" @click="switchSide(2)">学校论坛</span>
+        <!-- <span class="group" :class="{'active': showTab === 1}" @click="switchSide(1)">班级群聊</span> -->
+        <span class="forum" :class="{'active': showTab === 2}" @click="switchSide(2)">学校论坛</span>
       </label>
     </div>
     <div class="list">
@@ -37,7 +38,7 @@ export default{
       footItem: 4,
       groupList: [],
       forumList: [],
-      showTab: 1,
+      showTab: 2,
       errorTip: ''
     }
   },

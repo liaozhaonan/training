@@ -1,10 +1,15 @@
 import axios from 'axios'
 import qs from 'qs'
+import { getCookie } from './common'
 // import NProgress from 'nprogress'
 
 axios.interceptors.request.use(config => {
   // 这里可以加一些动作, 比如来个进度条开始动作,
   // NProgress.start()
+  if (!config.data.includes('key')) {
+    let key = getCookie('key')
+    config.data += `&key=${key}`
+  }
   return config
 }, error => {
   return Promise.reject(error)

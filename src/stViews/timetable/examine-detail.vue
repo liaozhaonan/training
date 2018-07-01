@@ -7,7 +7,60 @@
       <div class="title"><p>{{ headText }}</p></div>
     </top-nav>
     <div class="scroll-wrapper">
-      <cube-scroll>
+      <cube-scroll v-if="$route.params.type === '1'">
+        <div class="summary">
+          <div id="score-chart"></div>
+          <p>
+            <label class="left"><span class="name">总成绩</span><span class="value">626</span></label>
+            <label class="right"><span class="name">班级平均分</span><span class="value">556</span></label>
+          </p>
+        </div>
+        <div class="subjects">
+          <router-link :to="{ name: 'examine-compare', query: {a:78, b: 88 }}">
+            <p>
+              <label class="left"><span class="name">语文</span><span class="value">78</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">80</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:86, b: 85 }}">
+            <p>
+              <label class="left"><span class="name">数学</span><span class="value">86</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">86</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:96, b: 96 }}">
+            <p>
+              <label class="left"><span class="name">英语</span><span class="value">96</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">88</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:90, b: 98 }}">
+            <p>
+              <label class="left"><span class="name">物理</span><span class="value">90</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">83</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:92, b: 83 }}">
+            <p>
+              <label class="left"><span class="name">化学</span><span class="value">92</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">94</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:98, b: 91 }}">
+            <p>
+              <label class="left"><span class="name">生物</span><span class="value">98</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">92</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:86, b: 96 }}">
+            <p>
+              <label class="left"><span class="name">地理</span><span class="value">86</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">87</span><i></i></label>
+            </p>
+          </router-link>
+        </div>
+      </cube-scroll>
+      <cube-scroll v-else>
         <div class="summary">
           <div id="score-chart"></div>
           <p>
@@ -16,36 +69,48 @@
           </p>
         </div>
         <div class="subjects">
-          <router-link :to="{ name: 'examine-compare', params: {t: testData} }">
+          <router-link :to="{ name: 'examine-compare', query: {a:78, b: 88 }}">
             <p>
-              <label class="left"><span class="name">语文</span><span class="value">78</span></label>
+              <label class="left"><span class="name">语文</span><span class="value">88</span></label>
               <label class="right"><span class="name">班级平均分</span><span class="value">80</span><i></i></label>
             </p>
           </router-link>
-          <p>
-            <label class="left"><span class="name">数学</span><span class="value">86</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">86</span><i></i></label>
-          </p>
-          <p>
-            <label class="left"><span class="name">英语</span><span class="value">96</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">88</span><i></i></label>
-          </p>
-          <p>
-            <label class="left"><span class="name">物理</span><span class="value">90</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">83</span><i></i></label>
-          </p>
-          <p>
-            <label class="left"><span class="name">化学</span><span class="value">92</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">94</span><i></i></label>
-          </p>
-          <p>
-            <label class="left"><span class="name">生物</span><span class="value">98</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">92</span><i></i></label>
-          </p>
-          <p>
-            <label class="left"><span class="name">地理</span><span class="value">86</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">87</span><i></i></label>
-          </p>
+          <router-link :to="{ name: 'examine-compare', query: {a:86, b: 85 }}">
+            <p>
+              <label class="left"><span class="name">数学</span><span class="value">85</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">86</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:96, b: 96 }}">
+            <p>
+              <label class="left"><span class="name">英语</span><span class="value">96</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">88</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:90, b: 98 }}">
+            <p>
+              <label class="left"><span class="name">物理</span><span class="value">98</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">83</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:92, b: 83 }}">
+            <p>
+              <label class="left"><span class="name">化学</span><span class="value">83</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">94</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:98, b: 91 }}">
+            <p>
+              <label class="left"><span class="name">生物</span><span class="value">91</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">92</span><i></i></label>
+            </p>
+          </router-link>
+          <router-link :to="{ name: 'examine-compare', query: {a:86, b: 96 }}">
+            <p>
+              <label class="left"><span class="name">地理</span><span class="value">96</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">87</span><i></i></label>
+            </p>
+          </router-link>
         </div>
       </cube-scroll>
     </div>
@@ -58,7 +123,8 @@ export default{
   data () {
     return {
       headText: '',
-      testData: {name: '语文', value: 85}
+      halfData: [78, 86, 96, 90, 92, 98, 86],
+      finalData: [88, 85, 96, 98, 83, 91, 96]
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -88,9 +154,9 @@ export default{
           type: 'value'
         },
         series: [{
-          name: '期中考试',
+          name: this.$route.params.type === '1' ? '期中考试' : '期末考试',
           type: 'bar',
-          data: [78, 86, 96, 90, 92, 98, 86]
+          data: this.$route.params.type === '1' ? this.halfData : this.finalData
         }]
       })
     }

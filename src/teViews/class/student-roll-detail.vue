@@ -69,8 +69,9 @@ export default{
         }
         let studentList = []
         for (let i = 0; i < res.length; i++) {
-          studentList.push({name: res.member_name, value: i})
+          studentList.push({name: res[i].member_truename, value: res[i].member_id})
         }
+        console.log(studentList)
         this.studentData = this.$common.formatDocs(studentList)
         this.studentData.unshift({name: '', items: []})
       })

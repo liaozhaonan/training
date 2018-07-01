@@ -18,7 +18,7 @@
               <p><span>扫码截止时间:</span>{{ $common.getFullDate(item.add_time * 1000 + item.vld * 1000) }}&nbsp;{{ $common.getFullTime(item.add_time * 1000 + item.vld * 1000) }}</p>
             </div>
             <router-link :to="{ name: 'te-class-sign-code', query: {name: item.name, img: item.img} }"><h5>二维码<i></i></h5></router-link>
-            <router-link :to="{ name: 'te-class-sign-detail', params: {} }"><h5>扫码详情<i></i></h5></router-link>
+            <router-link :to="{ name: 'te-class-sign-detail', params: {id: item.id} }"><h5>扫码详情<i></i></h5></router-link>
           </div>
         </div>
       </cube-scroll>

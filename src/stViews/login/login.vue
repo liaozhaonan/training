@@ -39,6 +39,13 @@ export default{
   components: {
     topNav
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (vm.$common.getCookie('key')) {
+        vm.$common.delCookie('key')
+      }
+    })
+  },
   methods: {
     login () {
       let client
@@ -54,6 +61,7 @@ export default{
           return
         }
         this.$store.commit('setUser', res)
+        this.$common.setCookie('key', res.key, 10000000000)
         res.is_teacher
           ? this.$router.push({ name: 'te-timetable' })
           : this.$router.push({ name: 'timetable' })

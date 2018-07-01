@@ -70,7 +70,7 @@ export default{
           return
         }
         setTimeout(() => {
-          this.$router.push({name: 'settings'})
+          this.$router.go(-1)
         }, 1500)
       })
     }

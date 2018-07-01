@@ -20,7 +20,7 @@
         </div>
       </router-link>
     </div>
-    <cube-popup class="tip" :mask="false" :content="errorTip" ref="tipPopup" />
+    <cube-popup class="tip" :mask="false" :content="tipTip" ref="tipPopup" />
   </div>
 </template>
 
@@ -32,8 +32,7 @@ export default{
     return {
       showList: [],
       inputMaxLength: 3,
-      value: null,
-      errorTip: ''
+      tipTip: ''
     }
   },
   computed: {
@@ -63,8 +62,8 @@ export default{
         class_id: this.$route.params.classId
       }).then((res) => {
         if (res.error) {
-          this.errorTip = res.error
-          this.$common.showPopup(this.$refs.errPopup)
+          this.tipTip = res.error
+          this.$common.showPopup(this.$refs.tipPopup)
           return
         }
         let studentList = []
@@ -87,13 +86,25 @@ export default{
       })
     },
     submit () {
-      console.log(this.showList)
-      // this.$http.post('/api/mobile/index.php?act=member_index&op=achievement_add', {
-      //   key: this.$store.state.user.key,
-      // }).then((res) => {
-      //   this.errorTip = res.error ? res.error : res
-      //   this.$common.showPopup(this.$refs.errPopup)
-      // })
+      let memberId = []
+      let score = []
+      for (let item of this.showList) {
+        memberId.push(item.value)
+        score.push(item.score)
+        console.log(memberId)
+        console.log(score)
+      }
+      this.$http.post('/api/mobile/index.php?act=member_index&op=achievement_add', {
+        key: this.$store.state.user.key,
+        school_year_id: this.$route.params.year,
+        type: this.$route.params.type,
+        course: this.$route.query.course,
+        member_id: memberId,
+        score: score
+      }).then((res) => {
+        this.tipTip = res.error ? res.error : res
+        this.$common.showPopup(this.$refs.tipPopup)
+      })
     }
   }
 }

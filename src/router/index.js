@@ -248,12 +248,12 @@ const teRouters = [
     component: teClassMark1
   },
   {
-    path: '/te-class/mark/step-2/:classId',
+    path: '/te-class/mark/step-2/:classId/:year',
     name: 'te-class-mark-step-2',
     component: teClassMark2
   },
   {
-    path: '/te-class/mark/step-3/:classId/:type',
+    path: '/te-class/mark/step-3/:classId/:year/:type',
     name: 'te-class-mark-step-3',
     component: teClassMark3
   },
@@ -273,7 +273,7 @@ const teRouters = [
     component: teClassSignCode
   },
   {
-    path: '/te-class/sign/detail',
+    path: '/te-class/sign/:id/detail',
     name: 'te-class-sign-detail',
     component: teClassSignDetail
   },
@@ -321,7 +321,7 @@ const teRouters = [
 
 export default new Router({
   mode: 'history',
-  // base: '/app/',
+  base: '/app/',
   routes: [
     ...loginRouters,
     ...stRouters,

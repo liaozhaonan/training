@@ -4,7 +4,7 @@
       <div class="left" name="left">
         <a class="back" @click="$router.go(-1)"><i></i></a>
       </div>
-      <div class="title"><p>{{ headText }}考试成绩进退情况</p></div>
+      <div class="title"><p>{{ headText }}成绩进退情况</p></div>
     </top-nav>
     <div id="compare-chart"></div>
   </div>
@@ -15,7 +15,7 @@ import topNav from '@/components/topNav/topNav'
 export default{
   data () {
     return {
-      headText: '科目'
+      headText: '单科'
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -39,11 +39,11 @@ export default{
           type: 'value'
         },
         series: [{
-          data: [86, 94],
+          data: [this.$route.query.a, this.$route.query.b],
           type: 'line'
         }],
         tooltip: {
-          data: [86, 94]
+          data: [this.$route.query.a, this.$route.query.b]
         }
       })
     }

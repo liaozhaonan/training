@@ -3,43 +3,51 @@
     <top-nav>
       <div class="left"><router-link class="back" :to="{ name: 'te-class' }"><i></i></router-link></div>
       <div class="title"><p>课程设置</p></div>
+      <router-link class="add" :to="{ name: 'te-class-recruit', params: {} }">
+        添加课程
+      </router-link>
     </top-nav>
     <div class="common-scroll-wrapper">
       <cube-scroll>
         <div class="list">
-          <span class="active">语文</span>
-          <span>模型</span>
-          <span>艺术</span>
-          <span>社会学</span>
-          <span>生物</span>
-          <span>哲学</span>
-          <span>化学</span>
-          <span>心理学</span>
-          <span>英语</span>
-          <span>日语</span>
+          <span v-for="type in typeList" :key="type.id">{{ type.name }}</span>
         </div>
       </cube-scroll>
     </div>
-    <te-foot-nav :footItem="footItem"></te-foot-nav>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errorPopup" />
   </div>
 </template>
 
 <script>
 import topNav from '@/components/topNav/topNav'
-import teFootNav from '@/components/te/footNav/footNav'
 import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
+      typeList: [],
+      errorTip: '',
       footItem: 3
     }
   },
   components: {
-    topNav,
-    teFootNav
+    topNav
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getTypeData()
+    })
   },
   methods: {
-
+    getTypeData () {
+      this.$http.post('/api/mobile/index.php?act=index&op=extracurricular_class_list', {}).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        this.typeList = res
+      })
+    }
   }
 }
 </script>
@@ -51,6 +59,15 @@ export default{
       i.back
         width: 1rem
         height: 1.38rem
+    .add
+      display: inline-block
+      position: absolute
+      right: .4rem /* 30/75 */
+      line-height: 1.38rem
+      font-size: .43rem /* 32/75 */
+      color: #0076ff
+      &:active
+        color: #0050ff
   .sign-in
     display: inline-block
     position: absolute

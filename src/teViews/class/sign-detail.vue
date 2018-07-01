@@ -7,9 +7,9 @@
       <div class="title"><p>扫码详情</p></div>
     </top-nav>
     <div class="detail">
-      <p>班级: <span>产品1班</span></p>
-      <p>应到: <span>48人</span></p>
-      <p>实到: <span>43人</span></p>
+      <p>班级: <span>{{ info.class_name || 0 }}</span></p>
+      <p>应到: <span>{{ info.total_member || 0}}人</span></p>
+      <p>实到: <span>{{ info.actual_member || 0}}人</span></p>
     </div>
   </div>
 </template>
@@ -21,11 +21,31 @@ import '@/assets/styl/header-plus.styl'
 export default{
   data () {
     return {
-
+      info: {}
     }
   },
   components: {
     topNav
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getSignInfo()
+    })
+  },
+  methods: {
+    getSignInfo () {
+      this.$http.post('/api/mobile/index.php?act=qrcode&op=scene_sign_detail', {
+        key: this.$store.state.user.key,
+        id: this.$route.params.id
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        this.info = res
+      })
+    }
   }
 }
 </script>
