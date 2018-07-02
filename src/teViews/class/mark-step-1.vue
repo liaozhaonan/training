@@ -6,16 +6,22 @@
       </div>
       <div class="title"><p>考核成绩</p></div>
     </top-nav>
-    <p class="tip">第1步: 选择年级,班别,学年</p>
+    <p class="step">第1步: 选择年级,班别,学年</p>
     <p class="chose">年级<span @click="showGradePicker">{{ selectedGrade.text }}<i></i></span></p>
     <p class="chose">班别<span @click="showClassPicker">{{ selectedClass.text }}<i></i></span></p>
     <p class="chose">学年<span @click="showYearPicker">{{ selectedYear.text }}<i></i></span></p>
+    <p class="chose">学期<span @click="showTermPicker">{{ selectedTerm.text }}<i></i></span></p>
     <cube-popup class="tip" :mask="false" :content="errorTip" ref="tipPopup" />
   </div>
 </template>
 
 <script>
 import topNav from '@/components/topNav/topNav'
+
+const termData = [
+  {text: '上学期', value: '1'},
+  {text: '下学期', value: '2'}
+]
 
 export default{
   data () {
@@ -32,6 +38,10 @@ export default{
         value: ''
       },
       selectedYear: {
+        text: '请选择',
+        value: ''
+      },
+      selectedTerm: {
         text: '请选择',
         value: ''
       },
@@ -73,9 +83,9 @@ export default{
           onSelect: (selectedVal, selectedIndex, selectedText) => {
             this.selectedClass.text = selectedText[0]
             this.selectedClass.value = selectedVal[0]
-            if (this.selectedGrade.value && this.selectedClass.value && this.selectedYear.value) {
+            if (this.selectedGrade.value && this.selectedClass.value && this.selectedYear.value && this.selectedTerm.value) {
               setTimeout(() => {
-                this.$router.push({name: 'te-class-mark-step-2', params: {classId: this.selectedClass.value, year: this.selectedYear.value}})
+                this.$router.push({name: 'te-class-mark-step-2', params: {classId: this.selectedClass.value, year: this.selectedYear.value, term: this.selectedTerm.value}})
               }, 1500)
             }
           }
@@ -91,15 +101,33 @@ export default{
           onSelect: (selectedVal, selectedIndex, selectedText) => {
             this.selectedYear.text = selectedText[0]
             this.selectedYear.value = selectedVal[0]
-            if (this.selectedGrade.value && this.selectedClass.value && this.selectedYear.value) {
+            if (this.selectedGrade.value && this.selectedClass.value && this.selectedYear.value && this.selectedTerm.value) {
               setTimeout(() => {
-                this.$router.push({name: 'te-class-mark-step-2', params: {classId: this.selectedClass.value, year: this.selectedYear.value}})
+                this.$router.push({name: 'te-class-mark-step-2', params: {classId: this.selectedClass.value, year: this.selectedYear.value, term: this.selectedTerm.value}})
               }, 1500)
             }
           }
         })
       }
       this.yearPicker.show()
+    },
+    showTermPicker () {
+      if (!this.termPicker) {
+        this.termPicker = this.$createPicker({
+          title: '选择学期',
+          data: [termData],
+          onSelect: (selectedVal, selectedIndex, selectedText) => {
+            this.selectedTerm.text = selectedText[0]
+            this.selectedTerm.value = selectedVal[0]
+            if (this.selectedGrade.value && this.selectedClass.value && this.selectedYear.value && this.selectedTerm.value) {
+              setTimeout(() => {
+                this.$router.push({name: 'te-class-mark-step-2', params: {classId: this.selectedClass.value, year: this.selectedYear.value, term: this.selectedTerm.value}})
+              }, 1500)
+            }
+          }
+        })
+      }
+      this.termPicker.show()
     },
     getGradeData () {
       this.$http.post('/api/mobile/index.php?act=member_index&op=teacher_class_list', {
@@ -158,7 +186,7 @@ export default{
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  .tip
+  .step
     box-sizing: border-box
     width: 100%
     height: 1.07rem /* 80/75 */

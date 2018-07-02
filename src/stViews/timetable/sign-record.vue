@@ -49,9 +49,12 @@ export default{
     topNav,
     calendar
   },
-  mounted () {
-    let now = new Date()
-    this.pickedDay(now)
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      let now = new Date()
+      vm.pickedDay(now)
+      vm.getSignData()
+    })
   },
   methods: {
     pickDay (date) {
@@ -72,6 +75,19 @@ export default{
     },
     toggleCalendarStatus () {
       this.calendarStatus = !this.calendarStatus
+    },
+    getSignData () {
+      this.$http.post('/api/mobile/index.php?act=qrcode&op=student_scene_sign_list', {
+        key: this.$store.state.user.key,
+        date: this.$route.params.classId
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        console.log(res)
+      })
     }
   }
 }

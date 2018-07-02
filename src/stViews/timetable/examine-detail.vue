@@ -7,108 +7,19 @@
       <div class="title"><p>{{ headText }}</p></div>
     </top-nav>
     <div class="scroll-wrapper">
-      <cube-scroll v-if="$route.params.type === '1'">
+      <cube-scroll>
         <div class="summary">
           <div id="score-chart"></div>
           <p>
-            <label class="left"><span class="name">总成绩</span><span class="value">626</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">556</span></label>
+            <label class="left"><span class="name">总成绩</span><span class="value">{{ showData.total }}</span></label>
+            <label class="right"><span class="name">班级平均分</span><span class="value">{{ showData.cls_total }}</span></label>
           </p>
         </div>
         <div class="subjects">
-          <router-link :to="{ name: 'examine-compare', query: {a:78, b: 88 }}">
+          <router-link v-for="(s, i) in showData.subjects" :to="{ name: 'examine-compare',  params: {year: $route.params.year, term:$route.params.term, type: $route.params.type}, query: {course: s, a:showData.scores[i]}}" :key="i">
             <p>
-              <label class="left"><span class="name">语文</span><span class="value">78</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">80</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:86, b: 85 }}">
-            <p>
-              <label class="left"><span class="name">数学</span><span class="value">86</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">86</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:96, b: 96 }}">
-            <p>
-              <label class="left"><span class="name">英语</span><span class="value">96</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">88</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:90, b: 98 }}">
-            <p>
-              <label class="left"><span class="name">物理</span><span class="value">90</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">83</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:92, b: 83 }}">
-            <p>
-              <label class="left"><span class="name">化学</span><span class="value">92</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">94</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:98, b: 91 }}">
-            <p>
-              <label class="left"><span class="name">生物</span><span class="value">98</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">92</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:86, b: 96 }}">
-            <p>
-              <label class="left"><span class="name">地理</span><span class="value">86</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">87</span><i></i></label>
-            </p>
-          </router-link>
-        </div>
-      </cube-scroll>
-      <cube-scroll v-else>
-        <div class="summary">
-          <div id="score-chart"></div>
-          <p>
-            <label class="left"><span class="name">总成绩</span><span class="value">460</span></label>
-            <label class="right"><span class="name">班级平均分</span><span class="value">443</span></label>
-          </p>
-        </div>
-        <div class="subjects">
-          <router-link :to="{ name: 'examine-compare', query: {a:78, b: 88 }}">
-            <p>
-              <label class="left"><span class="name">语文</span><span class="value">88</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">80</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:86, b: 85 }}">
-            <p>
-              <label class="left"><span class="name">数学</span><span class="value">85</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">86</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:96, b: 96 }}">
-            <p>
-              <label class="left"><span class="name">英语</span><span class="value">96</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">88</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:90, b: 98 }}">
-            <p>
-              <label class="left"><span class="name">物理</span><span class="value">98</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">83</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:92, b: 83 }}">
-            <p>
-              <label class="left"><span class="name">化学</span><span class="value">83</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">94</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:98, b: 91 }}">
-            <p>
-              <label class="left"><span class="name">生物</span><span class="value">91</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">92</span><i></i></label>
-            </p>
-          </router-link>
-          <router-link :to="{ name: 'examine-compare', query: {a:86, b: 96 }}">
-            <p>
-              <label class="left"><span class="name">地理</span><span class="value">96</span></label>
-              <label class="right"><span class="name">班级平均分</span><span class="value">87</span><i></i></label>
+              <label class="left"><span class="name">{{ s }}</span><span class="value">{{ showData.scores[i] }}</span></label>
+              <label class="right"><span class="name">班级平均分</span><span class="value">{{ showData.cls_scores[i] }}</span><i></i></label>
             </p>
           </router-link>
         </div>
@@ -123,23 +34,54 @@ export default{
   data () {
     return {
       headText: '',
-      halfData: [78, 86, 96, 90, 92, 98, 86],
-      finalData: [88, 85, 96, 98, 83, 91, 96]
+      showData: {}
     }
+  },
+  conputed: {
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.headText = vm.$route.params.type === '1' ? '期中考试' : '期末考试'
-      vm.getChart()
+      vm.headText = Number.parseInt(to.params.type) === 1 ? '期中考试' : '期末考试'
+      vm.getMarks(to.params.type)
+      setTimeout(() => {
+        vm.getChart()
+      }, 1000)
     })
-  },
-  conputed: {
-
   },
   components: {
     topNav
   },
   methods: {
+    getMarks (type) {
+      this.$http.post('/api/mobile/index.php?act=student_index&op=my_achievements', {
+        key: this.$store.state.user.key,
+        school_year_id: this.$route.params.year,
+        term: Number.parseInt(this.$route.params.term) === 1 ? '上学期' : '下学期',
+        type: this.$route.params.type
+      }).then((res) => {
+        if (res.error) {
+          this.tipTip = res.error
+          this.$common.showPopup(this.$refs.tipPopup)
+          return
+        }
+        let subjects = []
+        let scores = []
+        let clsScores = []
+        for (let i = 0; i < res.list.length; i++) {
+          subjects.push(res.list[i].goods_name)
+          scores.push(res.list[i].score)
+          clsScores.push(res.list[i].average)
+        }
+        let data = {
+          total: res.total_points,
+          cls_total: res.class_average,
+          subjects: subjects,
+          scores: scores,
+          cls_scores: clsScores
+        }
+        this.showData = data
+      })
+    },
     getChart () {
       let scoreChart = this.$echarts.init(document.getElementById('score-chart'), 'light')
       // 绘制图表
@@ -148,15 +90,15 @@ export default{
         },
         tooltip: {},
         xAxis: {
-          data: ['语文', '数学', '英语', '物理', '化学', '生物', '地理']
+          data: this.showData.subjects
         },
         yAxis: {
           type: 'value'
         },
         series: [{
-          name: this.$route.params.type === '1' ? '期中考试' : '期末考试',
+          name: Number.parseInt(this.$route.params.type) === 1 ? '期中考试' : '期末考试',
           type: 'bar',
-          data: this.$route.params.type === '1' ? this.halfData : this.finalData
+          data: this.showData.scores
         }]
       })
     }
@@ -213,5 +155,4 @@ export default{
         padding-left: .27rem /* 20/75 */
     .subjects
       background: #ffffff
-      padding-bottom: .13rem /* 10/75 */
 </style>

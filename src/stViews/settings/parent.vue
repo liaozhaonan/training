@@ -2,7 +2,7 @@
   <div>
     <top-nav>
       <div class="title"><p>设置</p></div>
-      <router-link class="user" :to="{ name: 'settings-change-parent-info' }"></router-link>
+      <router-link class="user" :to="{ name: '', params: {} }"></router-link>
     </top-nav>
     <div class="common-scroll-wrapper">
       <cube-scroll>
@@ -13,11 +13,11 @@
           <router-link :to="{ name: 'settings-change-info', query: {type: 'member_truename', content: info.member_truename } }">
             <p>真实姓名<span>{{ info.member_truename }}</span></p>
           </router-link>
+          <router-link :to="{ name: 'settings-change-info', query: {type: 'genearch_name', content: info.genearch_name} }">
+            <p>监护人姓名<span>{{ info.genearch_name }}</span></p>
+          </router-link>
           <router-link :to="{ name: 'settings-change-mobile',  query: {content: info.member_mobile } }">
             <p>手机号<span>{{ info.member_mobile }}</span></p>
-          </router-link>
-          <router-link :to="{ name: 'settings-change-password' }">
-            <p>密码<span>******</span></p>
           </router-link>
         </div>
       </cube-scroll>

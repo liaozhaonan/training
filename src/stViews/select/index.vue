@@ -2,7 +2,7 @@
   <div>
     <top-nav id="search-header">
       <div class="left" name="left" @click="showCities()">
-        <a class="back">广州<i></i></a>
+        <!-- <a class="back">广州<i></i></a> -->
       </div>
       <div class="title"><p>可选课程</p></div>
     </top-nav>
@@ -11,9 +11,9 @@
       <span class="search-btn">搜索</span>
     </div>
     <div class="commend">
-      <span>语言</span><span>艺术</span><span>计算机</span><span>社会学</span>
-      <span>语言</span><span>艺术</span><span>计算机</span><span>社会学</span>
-      <span>语言</span><span>艺术</span><span>计算机</span><span>社会学</span>
+      <router-link v-for="type in typeList" :to="{ name: 'select-subject', params: {classId: type.id} }" :key="type.id">
+        <span>{{ type.name }}</span>
+      </router-link>
     </div>
     <div class="chose-city" :style="choseCityStyle">
       <top-nav>
@@ -31,6 +31,7 @@
       <cube-index-list :data="cityData"  @select="selectItem" @title-click="clickTitle"></cube-index-list>
     </div>
     <st-foot-nav :footItem="footItem"></st-foot-nav>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errPopup" />
   </div>
 </template>
 <script>
@@ -94,12 +95,14 @@ const cityData = [
 export default{
   data () {
     return {
-      footItem: 3,
       searchLesson: '',
       searchCity: '',
       clearable: true,
+      typeList: [],
       cityData: cityData,
-      currentCity: null
+      currentCity: null,
+      errorTip: '',
+      footItem: 3
     }
   },
   computed: {
@@ -117,21 +120,20 @@ export default{
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.getList(1)
+      vm.getLessonTypeList()
     })
   },
   methods: {
-    getList (tab) {
-      this.$http.post('/api/mobile/index.php?act=extracurricular&op=extracurricular_list', {
-        key: this.$store.state.user.key,
-        class_id: 1
+    getLessonTypeList () {
+      this.$http.post('/api/mobile/index.php?act=index&op=extracurricular_class_list', {
+        key: this.$store.state.user.key
       }).then((res) => {
         if (res.error) {
           this.errorTip = res.error
           this.$common.showPopup(this.$refs.errPopup)
           return
         }
-        console.log(res)
+        this.typeList = res
       })
     },
     showCities () {
@@ -202,7 +204,7 @@ export default{
     flex-wrap: wrap
     margin: 1.2rem /* 90/75 */ .4rem /* 30/75 */
     font-size: 0
-    span
+    a
       flex: 0 0 auto;
       width: 2.45rem /* 184/75 */
       height: 1.17rem /* 88/75 */

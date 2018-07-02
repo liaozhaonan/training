@@ -2,7 +2,7 @@
   <div>
     <top-nav id="first">
       <div class="left">
-        <router-link class="back" :to="{ name: 'examine-type', params: {year: school_year_id, term: term} }"><i class="examine"></i></router-link>
+        <router-link class="back" :to="{ name: 'examine-type'}"><i class="examine"></i></router-link>
       </div>
       <div class="title"><p>课表主页</p></div>
       <!-- <div class="right"><router-link class="forward"  :to="{ name: 'sign' }"><i class="scan"></i></router-link></div> -->

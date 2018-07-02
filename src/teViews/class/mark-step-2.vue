@@ -6,7 +6,7 @@
       </div>
       <div class="title"><p>考核成绩</p></div>
     </top-nav>
-    <p class="tip">第2步: 选择课程,考试类型</p>
+    <p class="step">第2步: 选择课程,考试类型</p>
     <p class="chose">选择课程<span @click="showLessonPicker">{{ selectedCourse.text }}<i></i></span></p>
     <p class="chose">选择考试类型<span @click="showRecordPicker">{{ selectedRecord.text }}<i></i></span></p>
     <!-- <router-link :to="{ name: 'te-class-mark-step-3', params: {classId: $route.params.classId, type: selectedRecord.value } }">
@@ -79,7 +79,7 @@ export default{
               setTimeout(() => {
                 this.$router.push({
                   name: 'te-class-mark-step-3',
-                  params: {classId: this.$route.params.classId, type: this.selectedRecord.value, year: this.$route.params.year},
+                  params: {classId: this.$route.params.classId, type: this.selectedRecord.value, year: this.$route.params.year, term: this.$route.params.term},
                   query: {course: this.selectedCourse.text}
                 })
               }, 1500)
@@ -112,7 +112,7 @@ export default{
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  .tip
+  .step
     box-sizing: border-box
     width: 100%
     height: 1.07rem /* 80/75 */

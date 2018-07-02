@@ -2,7 +2,7 @@
   <div>
     <top-nav>
       <div class="left" name="left">
-        <router-link class="back" :to="{ name: 'select-index' }"><i></i></router-link>
+        <a class="back" @click="$router.go(-1)"><i></i></a>
       </div>
       <div class="title"><p>化学</p></div>
     </top-nav>
@@ -29,6 +29,7 @@
         </div>
       </cube-scroll>
     </div>
+    <cube-popup class="tip" :mask="false" :content="errorTip" ref="errPopup" />
   </div>
 </template>
 
@@ -40,7 +41,8 @@ export default{
   data () {
     return {
       searchLesson: '',
-      clearable: true
+      clearable: true,
+      errorTip: ''
     }
   },
   computed: {
@@ -49,7 +51,25 @@ export default{
   components: {
     topNav
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.getSubjectData()
+    })
+  },
   methods: {
+    getSubjectData () {
+      this.$http.post('/api/mobile/index.php?act=extracurricular&op=extracurricular_list', {
+        key: this.$store.state.user.key,
+        class_id: this.$route.params.classId
+      }).then((res) => {
+        if (res.error) {
+          this.errorTip = res.error
+          this.$common.showPopup(this.$refs.errPopup)
+          return
+        }
+        console.log(res)
+      })
+    }
   }
 }
 </script>

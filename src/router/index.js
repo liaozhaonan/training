@@ -24,7 +24,9 @@ import chatForumPostCreating from '../stViews/chat/post-creating'
 import chatForumPostDetail from '../stViews/chat/post-detail'
 import settings from '../stViews/settings/index'
 import settingsChangeInfo from '../stViews/settings/change-info'
+import settingsChangeParentInfo from '../stViews/settings/parent'
 import settingsChangeMobile from '../stViews/settings/bind-mobile'
+import settingsChangePassword from '../stViews/settings/set-password'
 /* 老师 */
 import teTimetable from '../teViews/timetable/index'
 import teLessonDetail from '../teViews/timetable/lesson-detail'
@@ -89,7 +91,7 @@ const stRouters = [
     component: signRecord
   },
   {
-    path: '/examine/type/:year/:term',
+    path: '/examine/type',
     name: 'examine-type',
     component: examineType
   },
@@ -99,7 +101,7 @@ const stRouters = [
     component: examineDetail
   },
   {
-    path: '/examine/compare',
+    path: '/examine/compare/:year/:term/:type',
     name: 'examine-compare',
     component: examineCompare
   },
@@ -129,7 +131,7 @@ const stRouters = [
     component: selectIndex
   },
   {
-    path: '/select/subject',
+    path: '/select/subject/:classId',
     name: 'select-subject',
     component: selectSubject
   },
@@ -169,9 +171,19 @@ const stRouters = [
     component: settingsChangeInfo
   },
   {
+    path: '/settings/change-parent-info',
+    name: 'settings-change-parent-info',
+    component: settingsChangeParentInfo
+  },
+  {
     path: '/settings/change-mobile',
     name: 'settings-change-mobile',
     component: settingsChangeMobile
+  },
+  {
+    path: '/settings/change-password',
+    name: 'settings-change-password',
+    component: settingsChangePassword
   }
 ]
 
@@ -248,12 +260,12 @@ const teRouters = [
     component: teClassMark1
   },
   {
-    path: '/te-class/mark/step-2/:classId/:year',
+    path: '/te-class/mark/step-2/:classId/:year/:term',
     name: 'te-class-mark-step-2',
     component: teClassMark2
   },
   {
-    path: '/te-class/mark/step-3/:classId/:year/:type',
+    path: '/te-class/mark/step-3/:classId/:year/:term/:type',
     name: 'te-class-mark-step-3',
     component: teClassMark3
   },

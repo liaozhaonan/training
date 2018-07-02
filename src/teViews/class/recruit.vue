@@ -8,6 +8,7 @@
     </top-nav>
     <div class="common-scroll-wrapper">
       <cube-scroll>
+          <p class="chose">课程分类<span @click="showTypePicker">{{ selectedType.text }}<i></i></span></p>
           <p>课程</p>
           <cube-input v-model="name" placeholder="请输入课程名称"></cube-input>
           <p>课程介绍</p>
@@ -26,7 +27,6 @@
           <cube-input v-model="city" placeholder="如: 广州市"></cube-input>
           <p>所在区县</p>
           <cube-input v-model="area" placeholder="如: 越秀区"></cube-input>
-          <p class="chose">班别<span @click="showTypePicker">{{ selectedType.text }}<i></i></span></p>
           <!-- <p>招生要求</p>
           <div class="content-box">
             <cube-textarea v-model="studentRequire" name="content" placeholder="请输入介绍内容" :maxlength="textMaxLength"></cube-textarea>
@@ -242,11 +242,10 @@ export default{
       box-sizing: border-box
       width: 100%
       height: 1.6rem /* 120/75 */
-      padding: 0 .48rem /* 36/75 */ 0 .4rem /* 30/75 */
+      padding-right: .48rem /* 36/75 */
       line-height: 1.6rem /* 120/75 */
       font-size: .45rem /* 34/75 */
       text-align: left
-      border-bottom: 1px solid #f5f5f5
       background: #ffffff
       color: #454545
       span

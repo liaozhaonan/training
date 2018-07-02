@@ -6,7 +6,7 @@
       </div>
       <div class="title"><p>考核成绩</p></div>
     </top-nav>
-    <p class="tip">第3步: 填写成绩并发布</p>
+    <p class="step">第3步: 填写成绩并发布</p>
     <div class="common-scroll-wrapper">
       <div class="list">
         <div class="item" v-for="item in showList" :key="item.value">
@@ -37,14 +37,13 @@ export default{
   },
   computed: {
     btnDisable () {
-      let t = false
+      if (!this.showList.length) { return true }
       for (let student of this.showList) {
         if (student.score === '') {
-          t = true
-          break
+          return true
         }
       }
-      return t
+      return false
     }
   },
   components: {
@@ -86,24 +85,23 @@ export default{
       })
     },
     submit () {
-      let memberId = []
-      let score = []
+      let scoreData = []
       for (let item of this.showList) {
-        memberId.push(item.value)
-        score.push(item.score)
-        console.log(memberId)
-        console.log(score)
+        scoreData.push({member_id: item.value, score: item.score})
       }
       this.$http.post('/api/mobile/index.php?act=member_index&op=achievement_add', {
         key: this.$store.state.user.key,
         school_year_id: this.$route.params.year,
+        term: Number.parseInt(this.$route.params.term) === 1 ? '上学期' : '下学期',
         type: this.$route.params.type,
         course: this.$route.query.course,
-        member_id: memberId,
-        score: score
+        scoreData: scoreData
       }).then((res) => {
         this.tipTip = res.error ? res.error : res
         this.$common.showPopup(this.$refs.tipPopup)
+        setTimeout(() => {
+          this.$router.go(-2)
+        }, 1500)
       })
     }
   }
@@ -117,7 +115,7 @@ export default{
     border-radius: .4rem /* 30/75 */
     overflow: hidden
 
-  .tip
+  .step
     box-sizing: border-box
     width: 100%
     height: 1.07rem /* 80/75 */
