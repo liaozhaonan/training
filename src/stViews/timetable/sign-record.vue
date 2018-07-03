@@ -77,9 +77,9 @@ export default{
       this.calendarStatus = !this.calendarStatus
     },
     getSignData () {
-      this.$http.post('/api/mobile/index.php?act=qrcode&op=student_scene_sign_list', {
+      this.$http.post('/api/mobile/index.php?act=qrcode&op=student_scene_sign_log', {
         key: this.$store.state.user.key,
-        date: this.$route.params.classId
+        date: (new Date(`${this.pickedYear}-${this.pickedMonth}-${this.pickedDate}`)).getTime() - 60 * 60 * 8 * 1000
       }).then((res) => {
         if (res.error) {
           this.errorTip = res.error

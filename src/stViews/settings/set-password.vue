@@ -96,5 +96,4 @@ export default{
     padding: .27rem /* 20/75 */
     margin-top: .27rem /* 20/75 */
     background: #ffffff
-    border-bottom: .03rem /* 2/75 */ solid #bbb
 </style>

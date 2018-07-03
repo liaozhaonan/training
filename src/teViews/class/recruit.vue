@@ -142,8 +142,8 @@ export default{
       let backgroundImage
       let files = this.$refs.upload.files
       for (let i = 0; i < files.length; i++) {
-        image = files[0]
-        backgroundImage = files[1]
+        image = files[0].response.datas
+        backgroundImage = files[1].response.datas
       }
       this.$http.post('/api/mobile/index.php?act=extracurricular&op=extracurricular_add', {
         name: this.name,
